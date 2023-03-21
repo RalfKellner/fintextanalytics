@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "fintextanalytics"
+version = "0.1.0"
+description = "Text analysis of company reports"
+authors = ["Ralf Kellner"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "1.23.5"
+scikit-learn = "^1.2.0"
+gensim = "4.3.0"
+umap-learn = "^0.5.1"
+hdbscan = "^0.8.27"
+nltk = "3.8.1"
+matplotlib = "3.7.0"
+pandas = "^1.5.3"
+dropbox = "^11.36.0"
+jupyter = "^1.0.0"
+requests = "^2.28.2"
+beautifulsoup4 = "^4.11.2"
+lxml = "^4.9.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+myst-nb = {version = "^0.17.1", python = "^3.9"}
+sphinx-autoapi = "^2.0.1"
+sphinx-rtd-theme = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

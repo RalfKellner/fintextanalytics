@@ -1,0 +1,23 @@
+:py:mod:`fintextanalytics`
+==========================
+
+.. py:module:: fintextanalytics
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   frequencymodels/index.rst
+   utils/index.rst
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+
+   
+

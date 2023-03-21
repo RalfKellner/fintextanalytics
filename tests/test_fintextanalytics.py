@@ -1,0 +1,1 @@
+from fintextanalytics import fintextanalytics

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fintextanalytics.utils &mdash; fintextanalytics  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="fintextanalytics.frequencymodels" href="../frequencymodels/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            fintextanalytics
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../frequencymodels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.frequencymodels</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.utils</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fintextanalytics</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.utils</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/fintextanalytics/utils/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-fintextanalytics.utils">
+<span id="fintextanalytics-utils"></span><h1><a class="reference internal" href="#module-fintextanalytics.utils" title="fintextanalytics.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.utils</span></code></a><a class="headerlink" href="#module-fintextanalytics.utils" title="Permalink to this heading"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.utils.text_preprocessor" title="fintextanalytics.utils.text_preprocessor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_preprocessor</span></code></a>(text)</p></td>
+<td><p>A function for preprocessing text. The function uses the simple_preprocess function in combination with the strip_tag function</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fintextanalytics.utils.report2sentences" title="fintextanalytics.utils.report2sentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report2sentences</span></code></a>(raw_text[, idx_start, min_words, ...])</p></td>
+<td><p>A function which takes a document, splits and preprocesses its content into sentences.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.utils.scrape_10k_items" title="fintextanalytics.utils.scrape_10k_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scrape_10k_items</span></code></a>(cik, accension_nbr, email)</p></td>
+<td><p>This function calls the API from the SEC (<a class="reference external" href="https://www.sec.gov/">https://www.sec.gov/</a>) scrapes the 10K reports which is identified by the cik of the company</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fintextanalytics.utils.write_word_list" title="fintextanalytics.utils.write_word_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_word_list</span></code></a>(list_of_strings, filename)</p></td>
+<td><p>Write a list of words to a text file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.utils.read_word_list" title="fintextanalytics.utils.read_word_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_word_list</span></code></a>(filename)</p></td>
+<td><p>Read a txt file including a list of words.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fintextanalytics.utils.write_pickle" title="fintextanalytics.utils.write_pickle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_pickle</span></code></a>(filename, obj)</p></td>
+<td><p>Save an object as a pickle file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.utils.read_pickle" title="fintextanalytics.utils.read_pickle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pickle</span></code></a>(filename)</p></td>
+<td><p>Read a pickle file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fintextanalytics.utils.load_example_text" title="fintextanalytics.utils.load_example_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_example_text</span></code></a>()</p></td>
+<td><p>This function is just for the purpose of demonstration</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.utils.sent_detector" title="fintextanalytics.utils.sent_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sent_detector</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="fintextanalytics.utils.sent_detector">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">sent_detector</span></span><a class="headerlink" href="#fintextanalytics.utils.sent_detector" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.text_preprocessor">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">text_preprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#text_preprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.text_preprocessor" title="Permalink to this definition"></a></dt>
+<dd><p>A function for preprocessing text. The function uses the simple_preprocess function in combination with the strip_tag function
+from the gensim package. It removes numbers, tags and other symbols and returns a list of tokens.</p>
+<section id="paramters">
+<h4>Paramters:<a class="headerlink" href="#paramters" title="Permalink to this heading"></a></h4>
+<p>text: str</p>
+</section>
+<section id="returns">
+<h4>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h4>
+<p>list of str</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.report2sentences">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">report2sentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#report2sentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.report2sentences" title="Permalink to this definition"></a></dt>
+<dd><p>A function which takes a document, splits and preprocesses its content into sentences.</p>
+<section id="parameters">
+<h4>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>raw_text: str</dt><dd><p>a string which is usually a part of a report, e.g., item 1a from a 10-K report.</p>
+</dd>
+<dt>idx_start: int</dt><dd><p>the function output is a dataframe with an index serving as a sentence identifier, the id starts at this index number</p>
+</dd>
+<dt>min_words: int</dt><dd><p>some sentences maybe omitted if they are too short, sentences with a word count lower than this number are set to false for usage in
+the output</p>
+</dd>
+<dt>max_words: int</dt><dd><p>some sentences maybe omitted if they are too long, sentences with a word count higher than this number are set to false for usage in
+the output</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: None</dt><dd><p>you can specify arbitrary information which is added columnwise to the output, e.g., the company name of the report or date of publication</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h4>Returns:<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p>pd.DataFrame</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.scrape_10k_items">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">scrape_10k_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cik</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accension_nbr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#scrape_10k_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.scrape_10k_items" title="Permalink to this definition"></a></dt>
+<dd><p>This function calls the API from the SEC (<a class="reference external" href="https://www.sec.gov/">https://www.sec.gov/</a>) scrapes the 10K reports which is identified by the cik of the company
+and the report’s accension number.</p>
+<section id="id4">
+<h4>Parameters:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<p>cik: str
+accension_nrb: str
+email: str</p>
+<blockquote>
+<div><p>your email address which reveals your id to the SEC</p>
+</div></blockquote>
+</section>
+<section id="id5">
+<h4>Returns:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>pd.DataFrame:</dt><dd><p>a pandas dataframe including raw text of the report items 1, 1a, 3, 7 and 7a</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.write_word_list">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">write_word_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_of_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#write_word_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.write_word_list" title="Permalink to this definition"></a></dt>
+<dd><p>Write a list of words to a text file</p>
+<section id="id6">
+<h4>Parameters:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>filename: str</dt><dd><p>location and filename, use .txt ending if you want to write a text file</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h4>Returns:<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.read_word_list">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">read_word_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#read_word_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.read_word_list" title="Permalink to this definition"></a></dt>
+<dd><p>Read a txt file including a list of words.</p>
+<section id="id8">
+<h4>Parameters:<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>filename: str</dt><dd><p>location and filename, use .txt ending if you want to read a text file</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h4>Returns:<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<p>list of str</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.write_pickle">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">write_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#write_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.write_pickle" title="Permalink to this definition"></a></dt>
+<dd><p>Save an object as a pickle file.</p>
+<section id="id10">
+<h4>Parameters:<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>filename: str</dt><dd><p>location and filename, use .txt ending if you want to read a text file</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h4>Returns:<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h4>
+<p>list of str</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.read_pickle">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">read_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#read_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.read_pickle" title="Permalink to this definition"></a></dt>
+<dd><p>Read a pickle file.</p>
+<section id="id12">
+<h4>Parameters:<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>filename: str</dt><dd><p>location and filename, use .txt ending if you want to read a text file</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h4>Returns:<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h4>
+<p>object</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fintextanalytics.utils.load_example_text">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.utils.</span></span><span class="sig-name descname"><span class="pre">load_example_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/utils.html#load_example_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.utils.load_example_text" title="Permalink to this definition"></a></dt>
+<dd><p>This function is just for the purpose of demonstration</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../frequencymodels/index.html" class="btn btn-neutral float-left" title="fintextanalytics.frequencymodels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ralf Kellner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

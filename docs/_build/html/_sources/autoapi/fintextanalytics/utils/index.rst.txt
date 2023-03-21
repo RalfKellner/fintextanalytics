@@ -1,0 +1,162 @@
+:py:mod:`fintextanalytics.utils`
+================================
+
+.. py:module:: fintextanalytics.utils
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   fintextanalytics.utils.text_preprocessor
+   fintextanalytics.utils.report2sentences
+   fintextanalytics.utils.scrape_10k_items
+   fintextanalytics.utils.write_word_list
+   fintextanalytics.utils.read_word_list
+   fintextanalytics.utils.write_pickle
+   fintextanalytics.utils.read_pickle
+   fintextanalytics.utils.load_example_text
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   fintextanalytics.utils.sent_detector
+
+
+.. py:data:: sent_detector
+
+   
+
+.. py:function:: text_preprocessor(text)
+
+   A function for preprocessing text. The function uses the simple_preprocess function in combination with the strip_tag function
+   from the gensim package. It removes numbers, tags and other symbols and returns a list of tokens.
+
+   Paramters:
+   ----------
+   text: str
+
+   Returns:
+   --------
+   list of str
+
+
+
+.. py:function:: report2sentences(raw_text, idx_start=0, min_words=10, max_words=100, **kwargs)
+
+   A function which takes a document, splits and preprocesses its content into sentences.
+
+   Parameters:
+   -----------
+   raw_text: str
+       a string which is usually a part of a report, e.g., item 1a from a 10-K report.
+
+   idx_start: int
+       the function output is a dataframe with an index serving as a sentence identifier, the id starts at this index number
+
+   min_words: int
+       some sentences maybe omitted if they are too short, sentences with a word count lower than this number are set to false for usage in
+       the output
+
+   max_words: int
+       some sentences maybe omitted if they are too long, sentences with a word count higher than this number are set to false for usage in
+       the output
+
+   **kwargs: None
+       you can specify arbitrary information which is added columnwise to the output, e.g., the company name of the report or date of publication
+
+   Returns:
+   ---------
+   pd.DataFrame
+
+
+.. py:function:: scrape_10k_items(cik, accension_nbr, email)
+
+   This function calls the API from the SEC (https://www.sec.gov/) scrapes the 10K reports which is identified by the cik of the company
+   and the report's accension number.
+
+   Parameters:
+   ------------
+   cik: str
+   accension_nrb: str
+   email: str
+       your email address which reveals your id to the SEC
+
+   Returns:
+   ---------
+   pd.DataFrame:
+       a pandas dataframe including raw text of the report items 1, 1a, 3, 7 and 7a
+
+
+
+.. py:function:: write_word_list(list_of_strings, filename)
+
+   Write a list of words to a text file
+
+   Parameters:
+   -----------
+   filename: str
+       location and filename, use .txt ending if you want to write a text file
+
+   Returns:
+   ---------
+   None
+
+
+.. py:function:: read_word_list(filename)
+
+   Read a txt file including a list of words.
+
+   Parameters:
+   -----------
+   filename: str
+       location and filename, use .txt ending if you want to read a text file
+
+   Returns:
+   ---------
+   list of str
+
+
+
+.. py:function:: write_pickle(filename, obj)
+
+   Save an object as a pickle file.
+
+   Parameters:
+   -----------
+   filename: str
+       location and filename, use .txt ending if you want to read a text file
+
+   Returns:
+   ---------
+   list of str
+
+
+.. py:function:: read_pickle(filename)
+
+   Read a pickle file.
+
+   Parameters:
+   -----------
+   filename: str
+       location and filename, use .txt ending if you want to read a text file
+
+   Returns:
+   ---------
+   object
+
+
+.. py:function:: load_example_text()
+
+   This function is just for the purpose of demonstration
+
+

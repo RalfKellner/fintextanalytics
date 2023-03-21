@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fintextanalytics.utils &mdash; fintextanalytics  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            fintextanalytics
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">fintextanalytics</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">fintextanalytics.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for fintextanalytics.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">gensim.utils</span> <span class="kn">import</span> <span class="n">simple_preprocess</span>
+<span class="kn">from</span> <span class="nn">gensim.parsing.preprocessing</span> <span class="kn">import</span> <span class="n">strip_tags</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">nltk.data</span>
+<span class="n">sent_detector</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tokenizers/punkt/english.pickle&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="text_preprocessor"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.text_preprocessor">[docs]</a><span class="k">def</span> <span class="nf">text_preprocessor</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A function for preprocessing text. The function uses the simple_preprocess function in combination with the strip_tag function</span>
+<span class="sd">    from the gensim package. It removes numbers, tags and other symbols and returns a list of tokens.</span>
+
+<span class="sd">    Paramters:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text: str</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    list of str</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">simple_preprocess</span><span class="p">(</span><span class="n">strip_tags</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">deacc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="report2sentences"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.report2sentences">[docs]</a><span class="k">def</span> <span class="nf">report2sentences</span><span class="p">(</span><span class="n">raw_text</span><span class="p">,</span> <span class="n">idx_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_words</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_words</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A function which takes a document, splits and preprocesses its content into sentences.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    raw_text: str</span>
+<span class="sd">        a string which is usually a part of a report, e.g., item 1a from a 10-K report.</span>
+
+<span class="sd">    idx_start: int</span>
+<span class="sd">        the function output is a dataframe with an index serving as a sentence identifier, the id starts at this index number</span>
+
+<span class="sd">    min_words: int</span>
+<span class="sd">        some sentences maybe omitted if they are too short, sentences with a word count lower than this number are set to false for usage in</span>
+<span class="sd">        the output</span>
+<span class="sd">    </span>
+<span class="sd">    max_words: int</span>
+<span class="sd">        some sentences maybe omitted if they are too long, sentences with a word count higher than this number are set to false for usage in</span>
+<span class="sd">        the output</span>
+
+<span class="sd">    **kwargs: None</span>
+<span class="sd">        you can specify arbitrary information which is added columnwise to the output, e.g., the company name of the report or date of publication</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c1"># identify unique sentences</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sent_detector</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">raw_text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="c1"># preprocess each sentence</span>
+    <span class="n">sentences_prep</span> <span class="o">=</span> <span class="p">[</span><span class="n">text_preprocessor</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+    <span class="c1"># check if sentences should be used; very uncommon sentences in terms of length may not be representative</span>
+    <span class="n">sentences_use</span> <span class="o">=</span> <span class="p">[(</span><span class="n">min_words</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_prep</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_words</span><span class="p">)</span> <span class="k">for</span> <span class="n">sentence_prep</span> <span class="ow">in</span> <span class="n">sentences_prep</span><span class="p">]</span>
+
+    <span class="c1"># joint each token list for saving in the data frame</span>
+    <span class="n">sentences_join</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sentence_prep</span><span class="p">)</span> <span class="k">for</span> <span class="n">sentence_prep</span> <span class="ow">in</span> <span class="n">sentences_prep</span><span class="p">]</span>
+    
+    <span class="c1"># check is something odd happens during the first two steps</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences_join</span><span class="p">),</span> <span class="s1">&#39;See if something odd occurs for text preparation, raw number of sentences is not equal to the number of preprocessed sentences.&#39;</span>
+    
+    <span class="c1"># generate an index for the dataframe; if one iterates through many texts, it may be desired to build an index over all texts</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_start</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># generate a dataframe</span>
+    <span class="n">sentences_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;raw_text&#39;</span><span class="p">:</span> <span class="n">sentences</span><span class="p">,</span> <span class="s1">&#39;prep_text&#39;</span><span class="p">:</span> <span class="n">sentences_join</span><span class="p">,</span> <span class="s1">&#39;use_doc&#39;</span><span class="p">:</span> <span class="n">sentences_use</span><span class="p">},</span> <span class="n">index</span> <span class="o">=</span> <span class="n">idx</span><span class="p">)</span>
+    
+    <span class="c1"># by using keywords, it is possible to add metadata of the text for later usage</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">sentences_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">sentences_df</span></div>
+
+<div class="viewcode-block" id="scrape_10k_items"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.scrape_10k_items">[docs]</a><span class="k">def</span> <span class="nf">scrape_10k_items</span><span class="p">(</span><span class="n">cik</span><span class="p">,</span> <span class="n">accension_nbr</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span> 
+
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function calls the API from the SEC (https://www.sec.gov/) scrapes the 10K reports which is identified by the cik of the company</span>
+<span class="sd">    and the report&#39;s accension number.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
+<span class="sd">    cik: str</span>
+<span class="sd">    accension_nrb: str</span>
+<span class="sd">    email: str</span>
+<span class="sd">        your email address which reveals your id to the SEC</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    pd.DataFrame:</span>
+<span class="sd">        a pandas dataframe including raw text of the report items 1, 1a, 3, 7 and 7a</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">headers</span> <span class="o">=</span>  <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">}</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://www.sec.gov/Archives/edgar/data/</span><span class="si">{</span><span class="n">cik</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">accension_nbr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">accension_nbr</span><span class="si">}</span><span class="s1">.txt&#39;</span>
+    <span class="c1"># Get the HTML data from the 2018 10-K from Apple</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">raw_10k</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="c1"># Regex to find &lt;DOCUMENT&gt; tags</span>
+    <span class="n">doc_start_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;DOCUMENT&gt;&#39;</span><span class="p">)</span>
+    <span class="n">doc_end_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;/DOCUMENT&gt;&#39;</span><span class="p">)</span>
+    <span class="c1"># Regex to find &lt;TYPE&gt; tag prceeding any characters, terminating at new line</span>
+    <span class="n">type_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;TYPE&gt;[^\n]+&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create 3 lists with the span idices for each regex</span>
+
+    <span class="c1">### There are many &lt;Document&gt; Tags in this text file, each as specific exhibit like 10-K, EX-10.17 etc</span>
+    <span class="c1">### First filter will give us document tag start &lt;end&gt; and document tag end&#39;s &lt;start&gt; </span>
+    <span class="c1">### We will use this to later grab content in between these tags</span>
+    <span class="n">doc_start_is</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc_start_pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">raw_10k</span><span class="p">)]</span>
+    <span class="n">doc_end_is</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc_end_pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">raw_10k</span><span class="p">)]</span>
+
+    <span class="c1">### Type filter is interesting, it looks for &lt;TYPE&gt; with Not flag as new line, ie terminare there, with + sign</span>
+    <span class="c1">### to look for any char afterwards until new line \n. This will give us &lt;TYPE&gt; followed Section Name like &#39;10-K&#39;</span>
+    <span class="c1">### Once we have have this, it returns String Array, below line will with find content after &lt;TYPE&gt; ie, &#39;10-K&#39; </span>
+    <span class="c1">### as section names</span>
+    <span class="n">doc_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;&lt;TYPE&gt;&#39;</span><span class="p">):]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">type_pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">raw_10k</span><span class="p">)]</span>
+
+    <span class="n">document</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Create a loop to go through each section type and save only the 10-K section in the dictionary</span>
+    <span class="k">for</span> <span class="n">doc_type</span><span class="p">,</span> <span class="n">doc_start</span><span class="p">,</span> <span class="n">doc_end</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">doc_types</span><span class="p">,</span> <span class="n">doc_start_is</span><span class="p">,</span> <span class="n">doc_end_is</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">doc_type</span> <span class="o">==</span> <span class="s1">&#39;10-K&#39;</span><span class="p">:</span>
+            <span class="n">document</span><span class="p">[</span><span class="n">doc_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_10k</span><span class="p">[</span><span class="n">doc_start</span><span class="p">:</span><span class="n">doc_end</span><span class="p">]</span>
+
+
+    <span class="c1"># Write the regex</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(&gt;Item(\s|&amp;#160;|&amp;nbsp;)(1A|1B|3|7A|7|8)\.{0,1})|(ITEM\s(1A|1B|3|7A|7|8))&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Use finditer to math the regex</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Create the dataframe</span>
+    <span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">])</span>
+
+    <span class="n">test_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]</span>
+    <span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="c1"># Get rid of unnesesary charcters from the dataframe</span>
+    <span class="n">test_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&amp;#160;&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&amp;nbsp;&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;\.&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Drop duplicates</span>
+    <span class="n">pos_dat</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;last&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Set item as the dataframe index</span>
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Get Item 1a</span>
+    <span class="n">item_1a_raw</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">][</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item1a&#39;</span><span class="p">]:</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item1b&#39;</span><span class="p">]]</span>
+    <span class="c1"># Get Item 1b</span>
+    <span class="n">item_1b_raw</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">][</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item1b&#39;</span><span class="p">]:</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item3&#39;</span><span class="p">]]</span>
+    <span class="c1"># Get Item 3</span>
+    <span class="n">item_3_raw</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">][</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item3&#39;</span><span class="p">]:</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7&#39;</span><span class="p">]]</span>
+    <span class="c1"># Get Item 7</span>
+    <span class="n">item_7_raw</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">][</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7&#39;</span><span class="p">]:</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7a&#39;</span><span class="p">]]</span>
+    <span class="c1"># Get Item 7a</span>
+    <span class="n">item_7a_raw</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;10-K&#39;</span><span class="p">][</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7a&#39;</span><span class="p">]:</span><span class="n">pos_dat</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item8&#39;</span><span class="p">]]</span>
+
+    <span class="c1">### First convert the raw text we have to exrtacted to BeautifulSoup object </span>
+    <span class="n">item_1a_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">item_1a_raw</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">item_1b_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">item_1b_raw</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">item_3_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">item_3_raw</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">item_7_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">item_7_raw</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">item_7a_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">item_7a_raw</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item1a&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item_1a_content</span>
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item1b&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item_1b_content</span>
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item3&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item_3_content</span>
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item_7_content</span>
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;item7a&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item_7a_content</span>
+
+    <span class="n">pos_dat</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item8&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pos_dat</span></div>
+
+
+<div class="viewcode-block" id="write_word_list"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.write_word_list">[docs]</a><span class="k">def</span> <span class="nf">write_word_list</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Write a list of words to a text file</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename: str   </span>
+<span class="sd">        location and filename, use .txt ending if you want to write a text file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    None  </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">list_of_strings</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">word</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_word_list"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.read_word_list">[docs]</a><span class="k">def</span> <span class="nf">read_word_list</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Read a txt file including a list of words.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename: str   </span>
+<span class="sd">        location and filename, use .txt ending if you want to read a text file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    list of str  </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">word_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">word_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">word_list</span></div>
+
+<div class="viewcode-block" id="write_pickle"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.write_pickle">[docs]</a><span class="k">def</span> <span class="nf">write_pickle</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Save an object as a pickle file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename: str   </span>
+<span class="sd">        location and filename, use .txt ending if you want to read a text file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    list of str  </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="read_pickle"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.read_pickle">[docs]</a><span class="k">def</span> <span class="nf">read_pickle</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span><span class="c1">#</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Read a pickle file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename: str   </span>
+<span class="sd">        location and filename, use .txt ending if you want to read a text file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    object</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span></div>
+
+
+<div class="viewcode-block" id="load_example_text"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.load_example_text">[docs]</a><span class="k">def</span> <span class="nf">load_example_text</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function is just for the purpose of demonstration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">this_dir</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;example_text.txt&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+    
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ralf Kellner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

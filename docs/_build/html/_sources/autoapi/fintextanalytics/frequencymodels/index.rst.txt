@@ -1,0 +1,53 @@
+:py:mod:`fintextanalytics.frequencymodels`
+==========================================
+
+.. py:module:: fintextanalytics.frequencymodels
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   fintextanalytics.frequencymodels.FreqAnalyzer
+
+
+
+
+.. py:class:: FreqAnalyzer
+
+   .. py:method:: count_words_in_wordlist(token_list, wordlist='ewords')
+
+      Count the occurence of words from a word list in a list of strings. The list of strings can be generated from raw text using the
+      text_preprocessor function from the utils module. However, you are free to preprocess raw text into a list of tokens as you like.
+      A few word lists are given by default and initialized with the class instance. You can also use your own list of words.
+
+      Parameters:
+      -----------
+      token_list: list of str
+      wordlist: str or list of str
+          If you want to use internal word list the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+          of strings, e.g., ['expect', 'gdp', 'revenue']
+
+      Returns:
+      ---------
+      pd.DataFrame
+
+
+
+   .. py:method:: _load_default_wordlists()
+      :staticmethod:
+
+      This function is made for internal use of the class.
+
+
+   .. py:method:: _validate_words(words)
+      :staticmethod:
+
+      This function is made for internal use of the class.
+
+
+
