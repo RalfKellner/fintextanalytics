@@ -232,8 +232,8 @@ class EmbeddingAnalyer:
         Parameters:
         ------------
         wordlist: str or list
-            If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
-            of strings, e.g., ['expect', 'gdp', 'revenue']
+            If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. 
+            Or, you simply provide a list of strings, e.g., ['expect', 'gdp', 'revenue']
 
         n_words: int
             the number of words with similar context

@@ -1,0 +1,220 @@
+:py:mod:`fintextanalytics.embeddingmodels`
+==========================================
+
+.. py:module:: fintextanalytics.embeddingmodels
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   fintextanalytics.embeddingmodels.EmbeddingAnalyer
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   fintextanalytics.embeddingmodels.dbx
+
+
+.. py:data:: dbx
+
+   
+
+.. py:class:: EmbeddingAnalyer(doc_model_name='10K-long')
+
+   .. py:method:: fit_topic_model(document_vectors, ntopic_words=25, umap_args=None, hdbscan_args=None, rm_docs=False, cosine_threshold=0.5, n_reduced_topics=None)
+
+      This method uses a set of l2-normalized embedded document vectors, reduces their dimension by the UMAP dimensionality reduction model,
+      then the HDBSCAN cluster model to generate clusters which are considered to represent the topics, however, topic vectors are calculated using
+      the centroid of embedded document vectors per cluster in the original embedding space. In addition, the number of topics is reduced
+      by a cosine similarity threshold. After the process is finished, two sets of topic vectors and topic words are available. The one with the original
+      topic number from the HDBSCAN algorithm and the one with a reduced number of topics.
+
+      Parameters:
+      ------------
+      document_vectors : np.array
+          a numpy array with l2-normalized document vector embeddings which match to the class doc2vec model
+      ntopic_words: int
+          the number of words which are most similar to the topic
+      umap_args: dict
+          a dictionary with parameters for the UMAP model, default=None using the internal default arguments
+      hdbscan_args: dict
+          a dictionary with parameters for the HDBSCAN model, default=None using the internal default arguments
+      rm_docs: boolean
+          save the document vectors which have been used to train the topics if True, default = False which means vectors are deleted
+          after topics have been trained
+      cosine_threshold: fload
+          a value between 0 and 1 which defines the threshold above which original topic vectors are grouped together when creating reduced
+           topic vectors
+      n_reduced_topics: int
+          can be used as an alternative to the cosine similarity logic for topic reduction, if a fixed number of topics is desired;
+          this should be done with caution, because topics with low similarity might be merged
+
+
+   .. py:method:: find_close_docs_to_words(document_vectors, wordlist='esgwords', topn_documents=5)
+
+      This function looks for documents whose meaning is close to the words provided.
+
+      Parameters:
+      ------------
+      document_vectors: list or array of embedded document vectors
+      wordlist: str or list
+          If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+          of strings, e.g., ['expect', 'gdp', 'revenue']
+      topn_documents: int
+          Specficy the outputted number of close document ids to words
+
+      Returns:
+      ---------
+      tuple
+          a tuple of two dataframes, the first with close document ids, the second with corresponding cosine similarities
+
+
+   .. py:method:: find_close_words_to_docs(document_vectors, wordlist='esgwords', topn_words=5)
+
+      This function looks for words whose meaning is close to the meaning of the documents.
+
+      Parameters:
+      ------------
+      document_vectors: list or array of embedded document vectors
+      wordlist: str or list
+          If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+          of strings, e.g., ['expect', 'gdp', 'revenue']
+      topn_words: int
+          Specficy the outputted number of close words to document ids
+
+      Returns:
+      ---------
+      tuple
+          a tuple of two dataframes, the first with close words to document ids, the second with corresponding cosine similarities
+
+
+   .. py:method:: find_close_topics_to_words(topic_vectors, wordlist='esgwords', topn_topics=3)
+
+      This function looks for topics which are close to the meaning of certain words.
+
+      Parameters:
+      ------------
+      topic_vectors: list or array of topic vectors; Note: topic vectors must be learned by the fit_topic_model method
+      wordlist: str or list
+          If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+          of strings, e.g., ['expect', 'gdp', 'revenue']
+      topn_topics: int
+          Specficy the outputted number of close topics to words
+
+      Returns:
+      ---------
+      tuple
+          a tuple of two dataframes, the first with close topics to words, the second with corresponding cosine similarities
+
+
+   .. py:method:: find_close_topics_to_docs(document_vectors, topic_vectors, topn_topics=3)
+
+      This function looks for topics which are close to documents.
+
+      Parameters:
+      ------------
+      document_vectors: list or array of embedded document vectors
+      topic_vectors: list or array of topic vectors; Note: topic vectors must be learned by the fit_topic_model method
+      topn_topics: int
+          Specficy the outputted number of close topics to documents
+
+      Returns:
+      ---------
+      tuple
+          a tuple of two dataframes, the first with close topics to documents, the second with corresponding cosine similarities
+
+
+   .. py:method:: most_similar_words(wordlist='esgwords', n_words=5)
+
+      This function returns words which have similar meaning to words in the wordlist.
+
+      Parameters:
+      ------------
+      wordlist: str or list
+          If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords.
+          Or, you simply provide a list of strings, e.g., ['expect', 'gdp', 'revenue']
+
+      n_words: int
+          the number of words with similar context
+
+      Returns:
+      ---------
+      tuple
+          a tuple of two dataframes, the first with words close to words, the second with corresponding cosine similarities
+
+
+
+   .. py:method:: save(file)
+
+      This function can be used to store a trained EmbeddingAnalyzer instance as a pickle file.
+
+
+   .. py:method:: load(file)
+
+      This function can be used to load a previously trained EmbeddingAnalyzer instance
+
+
+   .. py:method:: _find_topic_words_and_scores(topic_vectors, nwords)
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _create_topic_vectors(cluster_labels)
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _deduplicate_topics()
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _reduce_topic_vectors(cosine_threshold, n_reduced_topics)
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _wordlist_prepared(words, print_info=True)
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _load_word_list()
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _validate_normed_vectors(vectors)
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _l2_normalize(vectors)
+      :staticmethod:
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _load_doc_model(model_name)
+      :staticmethod:
+
+      This function is made for internal usage.
+
+
+   .. py:method:: _validate_words(words)
+      :staticmethod:
+
+      This function is made for internal usage.
+
+
+

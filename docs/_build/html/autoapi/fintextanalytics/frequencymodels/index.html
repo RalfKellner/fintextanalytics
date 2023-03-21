@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="fintextanalytics.utils" href="../utils/index.html" />
-    <link rel="prev" title="fintextanalytics" href="../index.html" /> 
+    <link rel="prev" title="fintextanalytics.embeddingmodels" href="../embeddingmodels/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../embeddingmodels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.embeddingmodels</span></code></a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.frequencymodels</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.utils</span></code></a></li>
 </ul>
@@ -105,10 +106,10 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="fintextanalytics.frequencymodels.FreqAnalyzer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fintextanalytics.frequencymodels.</span></span><span class="sig-name descname"><span class="pre">FreqAnalyzer</span></span><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fintextanalytics.frequencymodels.</span></span><span class="sig-name descname"><span class="pre">FreqAnalyzer</span></span><a class="reference internal" href="../../../_modules/fintextanalytics/frequencymodels.html#FreqAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="fintextanalytics.frequencymodels.FreqAnalyzer.count_words_in_wordlist">
-<span class="sig-name descname"><span class="pre">count_words_in_wordlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ewords'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer.count_words_in_wordlist" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">count_words_in_wordlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'esgwords'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/frequencymodels.html#FreqAnalyzer.count_words_in_wordlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer.count_words_in_wordlist" title="Permalink to this definition"></a></dt>
 <dd><p>Count the occurence of words from a word list in a list of strings. The list of strings can be generated from raw text using the
 text_preprocessor function from the utils module. However, you are free to preprocess raw text into a list of tokens as you like.
 A few word lists are given by default and initialized with the class instance. You can also use your own list of words.</p>
@@ -117,7 +118,7 @@ A few word lists are given by default and initialized with the class instance. Y
 <p>token_list: list of str
 wordlist: str or list of str</p>
 <blockquote>
-<div><p>If you want to use internal word list the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+<div><p>If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
 of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
 </div></blockquote>
 </section>
@@ -129,13 +130,13 @@ of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fintextanalytics.frequencymodels.FreqAnalyzer._load_default_wordlists">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_default_wordlists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer._load_default_wordlists" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_default_wordlists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/frequencymodels.html#FreqAnalyzer._load_default_wordlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer._load_default_wordlists" title="Permalink to this definition"></a></dt>
 <dd><p>This function is made for internal use of the class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fintextanalytics.frequencymodels.FreqAnalyzer._validate_words">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer._validate_words" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/frequencymodels.html#FreqAnalyzer._validate_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.frequencymodels.FreqAnalyzer._validate_words" title="Permalink to this definition"></a></dt>
 <dd><p>This function is made for internal use of the class.</p>
 </dd></dl>
 
@@ -149,7 +150,7 @@ of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="fintextanalytics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../embeddingmodels/index.html" class="btn btn-neutral float-left" title="fintextanalytics.embeddingmodels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../utils/index.html" class="btn btn-neutral float-right" title="fintextanalytics.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

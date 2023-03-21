@@ -4,13 +4,15 @@ Text analysis of company reports
 
 ## Installation
 
+tbd
+
 ```bash
 $ pip install fintextanalytics
 ```
 
 ## Usage
 
-- TODO
+See examples for a better understanding of the usage.
 
 ## Contributing
 

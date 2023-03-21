@@ -19,7 +19,7 @@ Classes
 
 .. py:class:: FreqAnalyzer
 
-   .. py:method:: count_words_in_wordlist(token_list, wordlist='ewords')
+   .. py:method:: count_words_in_wordlist(token_list, wordlist='esgwords')
 
       Count the occurence of words from a word list in a list of strings. The list of strings can be generated from raw text using the
       text_preprocessor function from the utils module. However, you are free to preprocess raw text into a list of tokens as you like.
@@ -29,7 +29,7 @@ Classes
       -----------
       token_list: list of str
       wordlist: str or list of str
-          If you want to use internal word list the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+          If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
           of strings, e.g., ['expect', 'gdp', 'revenue']
 
       Returns:

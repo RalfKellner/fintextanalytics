@@ -21,6 +21,7 @@ Functions
    fintextanalytics.utils.write_pickle
    fintextanalytics.utils.read_pickle
    fintextanalytics.utils.load_example_text
+   fintextanalytics.utils.load_example_reports
 
 
 
@@ -156,6 +157,11 @@ Attributes
 
 
 .. py:function:: load_example_text()
+
+   This function is just for the purpose of demonstration
+
+
+.. py:function:: load_example_reports()
 
    This function is just for the purpose of demonstration
 

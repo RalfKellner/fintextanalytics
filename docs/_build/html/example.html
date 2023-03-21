@@ -49,6 +49,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#preprocess-some-text">Preprocess some text</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#split-a-document-into-preprocessed-sentences">Split a document into preprocessed sentences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-example-reports-and-preprocess-them-for-analysis">Load example reports and preprocess them for analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-for-documents-whose-meaning-is-close-to-the-meaning-of-certain-words">Search for documents whose meaning is close to the meaning of certain words</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-word-with-similar-meaning-or-context">Find word with similar meaning or context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-for-words-whose-meaning-is-close-to-documents">Search for words whose meaning is close to documents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-topics-according-to-the-top2vec-model-idea">Creating topics according to the top2vec model idea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-topics-which-are-close-to-the-meaning-of-words">Find topics which are close to the meaning of words</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-topics-for-documents">Find topics for documents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -125,32 +132,452 @@
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                            raw_text  ... use_doc
+0                                          &gt;Item 1A.  ...   False
+1  Risk Factors The Company’s business, reputatio...  ...    True
+2  When any one or more of these risks materializ...  ...    True
+3  Because of the following factors, as well as o...  ...    True
+4  This discussion of risk factors contains forwa...  ...   False
+
+[5 rows x 3 columns]
+                                            raw_text  ... company
+0                                          &gt;Item 1A.  ...   Apple
+1  Risk Factors The Company’s business, reputatio...  ...   Apple
+2  When any one or more of these risks materializ...  ...   Apple
+3  Because of the following factors, as well as o...  ...   Apple
+4  This discussion of risk factors contains forwa...  ...   Apple
+
+[5 rows x 4 columns]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-example-reports-and-preprocess-them-for-analysis">
+<h2>Load example reports and preprocess them for analysis<a class="headerlink" href="#load-example-reports-and-preprocess-them-for-analysis" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fintextanalytics.utils</span> <span class="kn">import</span> <span class="n">load_example_reports</span><span class="p">,</span> <span class="n">report2sentences</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># load items from Apple&#39;s 10K reports since 2012</span>
+<span class="n">apple_10k_items</span> <span class="o">=</span> <span class="n">load_example_reports</span><span class="p">()</span>
+
+<span class="c1"># use the report2sentences function to iterate through each item, split into sentences and preprocess text</span>
+<span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">apple_10k_items</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">initialized</span><span class="p">:</span>
+        <span class="n">report_sentences_prep_tmp</span> <span class="o">=</span> <span class="n">report2sentences</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">idx_start</span><span class="o">=</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">],</span> <span class="n">accDate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;accDate&#39;</span><span class="p">],</span> <span class="n">company</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;company&#39;</span><span class="p">])</span>
+        <span class="n">report_sentences_preprocessed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">report_sentences_preprocessed</span><span class="p">,</span> <span class="n">report_sentences_prep_tmp</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">report_sentences_prep_tmp</span> <span class="o">=</span> <span class="n">report2sentences</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">item</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">],</span> <span class="n">accDate</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;accDate&#39;</span><span class="p">],</span> <span class="n">company</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;company&#39;</span><span class="p">])</span>
+        <span class="n">report_sentences_preprocessed</span> <span class="o">=</span> <span class="n">report_sentences_prep_tmp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># a mapping between docid (sentences which are used for search) and raw id</span>
+<span class="n">docid2idx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="p">[</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">use_doc</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="n">docid2idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="p">[</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">use_doc</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                            raw_text  \
-0                                          &gt;Item 1A.   
-1  Risk Factors The Company’s business, reputatio...   
-2  When any one or more of these risks materializ...   
-3  Because of the following factors, as well as o...   
-4  This discussion of risk factors contains forwa...   
+1  Risk Factors    Because of\nthe following fact...   
+3  The Companys operations and performance depen...   
+4  Uncertainty about global economic conditions p...   
+5  For example, the\ncontinuing sovereign debt cr...   
+6  These worldwide and regional economic conditio...   
 
-                                           prep_text  use_doc  
-0                                               item    False  
-1  risk,factors,the,company,business,reputation,r...     True  
-2  when,any,one,or,more,of,these,risks,materializ...     True  
-3  because,of,the,following,factors,as,well,as,ot...     True  
-4  this,discussion,of,risk,factors,contains,forwa...    False  
-                                            raw_text  \
-0                                          &gt;Item 1A.   
-1  Risk Factors The Company’s business, reputatio...   
-2  When any one or more of these risks materializ...   
-3  Because of the following factors, as well as o...   
-4  This discussion of risk factors contains forwa...   
+                                           prep_text  use_doc    item  \
+1  risk,factors,because,of,the,following,factors,...     True  item1a   
+3  the,company,operations,and,performance,depend,...     True  item1a   
+4  uncertainty,about,global,economic,conditions,p...     True  item1a   
+5  for,example,the,continuing,sovereign,debt,cris...     True  item1a   
+6  these,worldwide,and,regional,economic,conditio...     True  item1a   
 
-                                           prep_text  use_doc company  
-0                                               item    False   Apple  
-1  risk,factors,the,company,business,reputation,r...     True   Apple  
-2  when,any,one,or,more,of,these,risks,materializ...     True   Apple  
-3  because,of,the,following,factors,as,well,as,ot...     True   Apple  
-4  this,discussion,of,risk,factors,contains,forwa...    False   Apple  
+                    accDate company  
+1  2012-10-31T17:07:19.000Z   Apple  
+3  2012-10-31T17:07:19.000Z   Apple  
+4  2012-10-31T17:07:19.000Z   Apple  
+5  2012-10-31T17:07:19.000Z   Apple  
+6  2012-10-31T17:07:19.000Z   Apple  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="search-for-documents-whose-meaning-is-close-to-the-meaning-of-certain-words">
+<h2>Search for documents whose meaning is close to the meaning of certain words<a class="headerlink" href="#search-for-documents-whose-meaning-is-close-to-the-meaning-of-certain-words" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fintextanalytics.embeddingmodels</span> <span class="kn">import</span> <span class="n">EmbeddingAnalyer</span>
+
+<span class="n">embed_analyzer</span> <span class="o">=</span> <span class="n">EmbeddingAnalyer</span><span class="p">()</span>
+
+<span class="c1"># get the preprocessed text from all documents we want to use</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">report_sentences_preprocessed</span><span class="p">[</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">use_doc</span><span class="p">]</span><span class="o">.</span><span class="n">prep_text</span>
+<span class="c1"># use the embed_analzyer doc2vec model to infer document vectors for each document</span>
+<span class="n">doc_vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">doc_model</span><span class="o">.</span><span class="n">infer_vector</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+
+<span class="c1"># the first data frame contains a word and its closest documents, the second includes corresponding cosine similarities</span>
+<span class="n">topn_docs</span><span class="p">,</span> <span class="n">topn_doc_scores</span> <span class="o">=</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">find_close_docs_to_words</span><span class="p">(</span><span class="n">doc_vecs</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;ewords&#39;</span><span class="p">)</span>
+
+<span class="c1"># let us take a look at the closest document for the first five words</span>
+<span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">topn_docs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The context word for the following documents is: </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">original_id</span> <span class="o">=</span> <span class="n">docid2idx</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The corresponing sentence with the highest similarity is:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>In sum 49 words from the default word lists could not be found in the Word2Vec vocabulary. These words are deleted from the word list:
+{&#39;ethnicity&#39;, &#39;motivates&#39;, &#39;proponent&#39;, &#39;discriminated&#39;, &#39;ungc&#39;, &#39;grandparents&#39;, &#39;honesty&#39;, &#39;humanity&#39;, &#39;minorities&#39;, &#39;cobc&#39;, &#39;eeo&#39;, &#39;vacancyappreciation&#39;, &#39;nondiscrimination&#39;, &#39;vestsballot&#39;, &#39;genders&#39;, &#39;interlocks&#39;, &#39;gays&#39;, &#39;lobbyist&#39;, &#39;grandchildren&#39;, &#39;lesbians&#39;, &#39;donating&#39;, &#39;perquisites&#39;, &#39;gay&#39;, &#39;eicc&#39;, &#39;childbirth&#39;, &#39;ethnically&#39;, &#39;siblings&#39;, &#39;homosexual&#39;, &#39;ilo&#39;, &#39;educates&#39;, &#39;ruggie&#39;, &#39;householding&#39;, &#39;ballots&#39;, &#39;lesbian&#39;, &#39;nephews&#39;, &#39;parachutes&#39;, &#39;nieces&#39;, &#39;bisexual&#39;, &#39;donates&#39;, &#39;lgbt&#39;, &#39;spousal&#39;, &#39;stepchildren&#39;, &#39;webpage&#39;, &#39;transgender&#39;, &#39;ethnicities&#39;, &#39;ethic&#39;, &#39;stepparents&#39;, &#39;grandparent&#39;, &#39;marriage&#39;}
+Vectors seem not have unit length...the vectors have been l2-normalized.
+The context word for the following documents is: clean
+The corresponing sentence with the highest similarity is:
+----------------------------------------------------------------------------------------------------
+Component defects could make the Company’s products unsafe and create a risk of environmental or property damage and personal injury.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: environmental
+The corresponing sentence with the highest similarity is:
+----------------------------------------------------------------------------------------------------
+The Company’s global operations are subject to complex and changing laws and regulations on subjects, including antitrust; privacy, data security and data localization; consumer protection; advertising, sales, billing and e-commerce; product liability; intellectual property ownership and infringement; digital platforms; Internet, telecommunications, and mobile communications; media, television, film and digital content; availability of third-party software applications and services; labor and employment; anticorruption; import, export and trade; foreign exchange controls and cash repatriation restrictions; anti–money laundering; foreign ownership and investment; tax; and environmental, health and safety, including electronic waste, recycling, and climate change.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: epa
+The corresponing sentence with the highest similarity is:
+----------------------------------------------------------------------------------------------------
+Many governments, regulators, investors, employees, customers and other stakeholders are increasingly focused on environmental, social and governance considerations relating to businesses, including climate change and greenhouse gas emissions, human and civil rights, and diversity, equity and inclusion.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: sustainability
+The corresponing sentence with the highest similarity is:
+----------------------------------------------------------------------------------------------------
+Many governments, regulators, investors, employees, customers and other stakeholders are increasingly focused on environmental, social and governance considerations relating to businesses, including climate change and greenhouse gas emissions, human and civil rights, and diversity, equity and inclusion.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: climate
+The corresponing sentence with the highest similarity is:
+----------------------------------------------------------------------------------------------------
+Global climate change is resulting in certain types of natural disasters occurring more frequently or with more intense effects.
+----------------------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us further add more context by printing the sentence before and after the relevant document</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let us further add the senctence before and the sentence after</span>
+<span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">topn_docs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The context word for the following documents is: </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">original_id</span> <span class="o">=</span> <span class="n">docid2idx</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The corresponing paragraph with the relevant sentence in the middle is:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The context word for the following documents is: clean
+The corresponing paragraph with the relevant sentence in the middle is:
+----------------------------------------------------------------------------------------------------
+Defects can also exist in components and products the Company purchases from third parties.
+Component defects could make the Company’s products unsafe and create a risk of environmental or property damage and personal injury.
+These risks may increase as the Company’s products are introduced into specialized applications, including health.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: environmental
+The corresponing paragraph with the relevant sentence in the middle is:
+----------------------------------------------------------------------------------------------------
+The Company is subject to complex and changing laws and regulations worldwide, which exposes the Company to potential liabilities, increased costs and other adverse effects on the Company’s business.
+The Company’s global operations are subject to complex and changing laws and regulations on subjects, including antitrust; privacy, data security and data localization; consumer protection; advertising, sales, billing and e-commerce; product liability; intellectual property ownership and infringement; digital platforms; Internet, telecommunications, and mobile communications; media, television, film and digital content; availability of third-party software applications and services; labor and employment; anticorruption; import, export and trade; foreign exchange controls and cash repatriation restrictions; anti–money laundering; foreign ownership and investment; tax; and environmental, health and safety, including electronic waste, recycling, and climate change.
+Compliance with these laws and regulations is onerous and expensive, increasing the cost of conducting the Company’s global operations.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: epa
+The corresponing paragraph with the relevant sentence in the middle is:
+----------------------------------------------------------------------------------------------------
+Expectations relating to environmental, social and governance considerations expose the Company to potential liabilities, increased costs, reputational harm, and other adverse effects on the Company’s business.
+Many governments, regulators, investors, employees, customers and other stakeholders are increasingly focused on environmental, social and governance considerations relating to businesses, including climate change and greenhouse gas emissions, human and civil rights, and diversity, equity and inclusion.
+In addition, the Company makes statements about its environmental, social and governance goals and initiatives through its environmental, social and governance report, its other non-financial reports, information provided on its website, press statements and other communications.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: sustainability
+The corresponing paragraph with the relevant sentence in the middle is:
+----------------------------------------------------------------------------------------------------
+Expectations relating to environmental, social and governance considerations expose the Company to potential liabilities, increased costs, reputational harm, and other adverse effects on the Company’s business.
+Many governments, regulators, investors, employees, customers and other stakeholders are increasingly focused on environmental, social and governance considerations relating to businesses, including climate change and greenhouse gas emissions, human and civil rights, and diversity, equity and inclusion.
+In addition, the Company makes statements about its environmental, social and governance goals and initiatives through its environmental, social and governance report, its other non-financial reports, information provided on its website, press statements and other communications.
+----------------------------------------------------------------------------------------------------
+
+The context word for the following documents is: climate
+The corresponing paragraph with the relevant sentence in the middle is:
+----------------------------------------------------------------------------------------------------
+In addition, such operations and facilities are subject to the risk of interruption by fire, power shortages, nuclear power plant accidents and other industrial accidents, terrorist attacks and other hostile acts, ransomware and other cybersecurity attacks, labor disputes, public health issues, including pandemics such as the COVID-19 pandemic, and other events beyond the Company’s control.
+Global climate change is resulting in certain types of natural disasters occurring more frequently or with more intense effects.
+Such events can make it difficult or impossible for the Company to manufacture and deliver products to its customers, create delays and inefficiencies in the Company’s supply and manufacturing chain, and result in slowdowns and outages to the Company’s service offerings.
+----------------------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-word-with-similar-meaning-or-context">
+<h2>Find word with similar meaning or context<a class="headerlink" href="#find-word-with-similar-meaning-or-context" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_words</span><span class="p">,</span> <span class="n">sim_word_scores</span> <span class="o">=</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">most_similar_words</span><span class="p">([</span><span class="s1">&#39;environmental&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sim_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sim_word_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                       0        1      2            3          4
+environmental  pollution  cleanup  clean  remediation  hazardous
+                      0         1         2         3         4
+environmental  0.829885  0.827046  0.812441  0.806115  0.767096
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="search-for-words-whose-meaning-is-close-to-documents">
+<h2>Search for words whose meaning is close to documents<a class="headerlink" href="#search-for-words-whose-meaning-is-close-to-documents" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topn_words</span><span class="p">,</span> <span class="n">topn_word_scores</span> <span class="o">=</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">find_close_words_to_docs</span><span class="p">(</span><span class="n">doc_vecs</span><span class="p">)</span>
+
+<span class="n">word_of_interest</span> <span class="o">=</span> <span class="s1">&#39;environmental&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The following paragraphs are close to the meaning for the word </span><span class="si">{</span><span class="n">word_of_interest</span><span class="si">}</span><span class="s1">: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">topn_words</span><span class="p">[</span><span class="n">topn_words</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">word_of_interest</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">original_id</span> <span class="o">=</span> <span class="n">docid2idx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Date of the report: </span><span class="si">{</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="p">]</span><span class="o">.</span><span class="n">accDate</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">original_id</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vectors seem not have unit length...the vectors have been l2-normalized.
+The following paragraphs are close to the meaning for the word environmental: 
+
+Date of the report: 2012-10-31T17:07:19.000Z
+----------------------------------------------------------------------------------------------------
+These laws continue to develop and may be inconsistent from
+jurisdiction to jurisdiction.
+Complying with emerging and changing international requirements may cause the Company to incur substantial costs or require the Company to change its business practices.
+Noncompliance could result in penalties or
+significant legal liability.
+----------------------------------------------------------------------------------------------------
+Date of the report: 2019-10-30T18:12:36.000Z
+----------------------------------------------------------------------------------------------------
+These laws continue to develop and may be inconsistent from jurisdiction to jurisdiction.
+Complying with emerging and changing international requirements may cause the Company to incur substantial costs or require the Company to change its business practices.
+Noncompliance could result in significant penalties or legal liability.
+----------------------------------------------------------------------------------------------------
+Date of the report: 2020-10-29T18:06:25.000Z
+----------------------------------------------------------------------------------------------------
+These laws continue to develop and may be inconsistent from jurisdiction to jurisdiction.
+Complying with emerging and changing international requirements may cause the Company to incur substantial costs or require the Company to change its business practices.
+Noncompliance could result in significant penalties or legal liability.
+----------------------------------------------------------------------------------------------------
+Date of the report: 2022-10-27T18:01:14.000Z
+----------------------------------------------------------------------------------------------------
+Regulatory changes and other actions that materially adversely affect the Company’s business may be announced with little or no advance notice and the Company may not be able to effectively mitigate all adverse impacts from such measures.
+For example, the Company is subject to changing regulations relating to the export and import of its products.
+Although the Company has programs, policies and procedures in place that are designed to satisfy regulatory requirements, there can be no assurance that such policies and procedures will be effective in preventing a violation or a claim of a violation.
+----------------------------------------------------------------------------------------------------
+Date of the report: 2022-10-27T18:01:14.000Z
+----------------------------------------------------------------------------------------------------
+These laws continue to develop and may be inconsistent from jurisdiction to jurisdiction.
+Complying with emerging and changing requirements causes the Company to incur substantial costs and has required and may in the future require the Company to change its business practices.
+Noncompliance could result in significant penalties or legal liability.
+----------------------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-topics-according-to-the-top2vec-model-idea">
+<h2>Creating topics according to the top2vec model idea<a class="headerlink" href="#creating-topics-according-to-the-top2vec-model-idea" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">fit_topic_model</span><span class="p">(</span><span class="n">doc_vecs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Top 10 words of topic number 1:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_words</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Top 10 words of topic number 2:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_words</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Top 10 words of topic number </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_words</span><span class="p">)</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_words</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vectors seem not have unit length...the vectors have been l2-normalized.
+Starting to train the dimensionality reduction model...
+Umap model for dimensionality reduction has been trained!
+
+Starting to train the clustering model...
+HDBSCAN model for clustering has been trained!
+
+Creating topic vectors...
+Creating topic vectors finished! 20 topics have been found.
+Creating a reduced topic model...
+The number of topics has been reduced from 20 to 17.
+Topic reduction is finished, the number of reduced topics is 17
+
+----------------------------------------------------------------------------------------------------
+Top 10 words of topic number 1:
+[&#39;assurance&#39; &#39;assurances&#39; &#39;reasonable&#39; &#39;acceptable&#39; &#39;no&#39; &#39;demeanor&#39;
+ &#39;commercially&#39; &#39;there&#39; &#39;witnesses&#39; &#39;can&#39;]
+----------------------------------------------------------------------------------------------------
+Top 10 words of topic number 2:
+[&#39;contingencies&#39; &#39;item&#39; &#39;supplementary&#39; &#39;elsewhere&#39; &#39;cautionary&#39; &#39;herein&#39;
+ &#39;caption&#39; &#39;appearing&#39; &#39;heading&#39; &#39;unasserted&#39;]
+----------------------------------------------------------------------------------------------------
+...
+----------------------------------------------------------------------------------------------------
+Top 10 words of topic number 20:
+[&#39;repurchase&#39; &#39;repurchases&#39; &#39;repurchased&#39; &#39;ncib&#39; &#39;dividend&#39; &#39;buyback&#39;
+ &#39;equated&#39; &#39;repayments&#39; &#39;equivalents&#39; &#39;tcj&#39;]
+----------------------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-topics-which-are-close-to-the-meaning-of-words">
+<h2>Find topics which are close to the meaning of words<a class="headerlink" href="#find-topics-which-are-close-to-the-meaning-of-words" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topn_topics</span><span class="p">,</span> <span class="n">topn_topic_scores</span> <span class="o">=</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">find_close_topics_to_words</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;ewords&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">topn_topics</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">topn_topic_scores</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                 0  1   2
+clean            9  2  16
+environmental   13  8   9
+epa             12  9   2
+sustainability   8  9   6
+climate          6  8   2
+                       0         1         2
+clean           0.063409  0.036895  0.027610
+environmental   0.152109  0.138078  0.103929
+epa             0.021987  0.016028  0.007840
+sustainability  0.173058  0.122766  0.119503
+climate         0.201616  0.129706  0.080976
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-topics-for-documents">
+<h2>Find topics for documents<a class="headerlink" href="#find-topics-for-documents" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topn_doc_topics</span><span class="p">,</span> <span class="n">topn_doc_topic_scores</span> <span class="o">=</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">find_close_topics_to_docs</span><span class="p">(</span><span class="n">doc_vecs</span><span class="p">,</span> <span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_vectors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vectors seem not have unit length...the vectors have been l2-normalized.
+</pre></div>
+</div>
+</div>
+</div>
+<p>With these topics, we can search certain parts of the report for the most common topic and use topic words for increasing the understanding what this part of the reports is mostly about.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc_idx_start</span><span class="p">,</span> <span class="n">doc_idx_end</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span>
+
+<span class="n">top_topic</span> <span class="o">=</span> <span class="n">topn_doc_topics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">doc_idx_start</span><span class="p">:</span><span class="n">doc_idx_end</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Topic words for the topic wiht the highest count in this report area are:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">embed_analyzer</span><span class="o">.</span><span class="n">topic_words</span><span class="p">[</span><span class="n">top_topic</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">topn_doc_topics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">doc_idx_start</span><span class="p">:</span><span class="n">doc_idx_end</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">top_topic</span>
+<span class="n">corresponding_docids</span> <span class="o">=</span> <span class="n">topn_doc_topics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">doc_idx_start</span><span class="p">:</span><span class="n">doc_idx_end</span><span class="p">,</span> <span class="mi">0</span><span class="p">][</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Documents which are related in this part of the report read as follows:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">corresponding_docids</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">docid2idx</span><span class="p">[</span><span class="nb">id</span><span class="p">]]</span><span class="o">.</span><span class="n">raw_text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Topic words for the topic wiht the highest count in this report area are:
+----------------------------------------------------------------------------------------------------
+[&#39;tariffs&#39; &#39;protectionist&#39; &#39;protectionism&#39; &#39;embargos&#39; &#39;constrict&#39;
+ &#39;instability&#39; &#39;censorship&#39; &#39;retaliatory&#39; &#39;recessions&#39; &#39;retaliate&#39;
+ &#39;hyperinflation&#39; &#39;nationalism&#39; &#39;imports&#39; &#39;expropriation&#39; &#39;dampen&#39;
+ &#39;wavering&#39; &#39;nationalization&#39; &#39;austerity&#39; &#39;overseas&#39; &#39;calamities&#39;
+ &#39;blockages&#39; &#39;boycotts&#39; &#39;diplomatic&#39; &#39;unrest&#39; &#39;unpredictably&#39;]
+
+Documents which are related in this part of the report read as follows:
+----------------------------------------------------------------------------------------------------
+The Companys business is subject to the risks of international operations.
+----------------------------------------------------------------------------------------------------
+The Company derives a significant portion of its revenue and earnings from its international operations.
+----------------------------------------------------------------------------------------------------
+Compliance with applicable U.S.
+and foreign laws and regulations, such as import and export requirements, anti-corruption laws, tax laws, foreign exchange controls and cash repatriation restrictions, data privacy requirements, environmental laws, labor laws, and anti-competition
+regulations, increases the costs of doing business in foreign jurisdictions.
+----------------------------------------------------------------------------------------------------
+The Company also could be significantly affected by other risks associated with international
+activities including, but not limited to, economic and labor conditions, increased duties, taxes and other costs, political instability, and changes in the value of the U.S. dollar versus local currencies.
+----------------------------------------------------------------------------------------------------
+Margins on sales of the Companys
+products in foreign countries, and on sales of products that include components obtained from foreign suppliers, could be materially adversely affected by foreign currency exchange rate fluctuations and by international trade regulations, including
+duties, tariffs and antidumping penalties.
+----------------------------------------------------------------------------------------------------
+For example, the uncertainty regarding the ability of certain European countries to continue to service their sovereign debt obligations and the related financial restructuring
+efforts by European governments may cause the value of several European currencies, including the euro, to fluctuate, which could adversely affect the Companys non-U.S. dollar sales and operating expenses in the impacted jurisdictions.
+----------------------------------------------------------------------------------------------------
+Weakening of foreign currencies relative to the U.S. dollar adversely affects the U.S. dollar value of the Companys foreign currency-denominated sales and earnings, and generally leads the Company to raise international pricing, potentially
+reducing demand for the Companys products.
+----------------------------------------------------------------------------------------------------
+Conversely, a strengthening of foreign currencies relative to the U.S. dollar, while generally beneficial to the Companys foreign currency-denominated
+sales and earnings, could cause the Company to reduce international pricing and incur losses on its foreign currency derivative instruments, thereby limiting the benefit.
+----------------------------------------------------------------------------------------------------
+Additionally, strengthening of foreign currencies may also increase the
+Companys cost of product components denominated in those currencies, thus adversely affecting gross margins.
+----------------------------------------------------------------------------------------------------
+The Companys exposure to credit and collectability risk on its trade receivables is higher in certain international
+markets and its ability to mitigate such risks may be limited.
+----------------------------------------------------------------------------------------------------
+The Company could be impacted by unfavorable results of legal proceedings.
+----------------------------------------------------------------------------------------------------
 </pre></div>
 </div>
 </div>

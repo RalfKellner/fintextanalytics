@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fintextanalytics.embeddingmodels &mdash; fintextanalytics  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="fintextanalytics.frequencymodels" href="../frequencymodels/index.html" />
+    <link rel="prev" title="fintextanalytics" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            fintextanalytics
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.embeddingmodels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../frequencymodels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.frequencymodels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.utils</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fintextanalytics</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.embeddingmodels</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/fintextanalytics/embeddingmodels/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-fintextanalytics.embeddingmodels">
+<span id="fintextanalytics-embeddingmodels"></span><h1><a class="reference internal" href="#module-fintextanalytics.embeddingmodels" title="fintextanalytics.embeddingmodels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fintextanalytics.embeddingmodels</span></code></a><a class="headerlink" href="#module-fintextanalytics.embeddingmodels" title="Permalink to this heading"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer" title="fintextanalytics.embeddingmodels.EmbeddingAnalyer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmbeddingAnalyer</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fintextanalytics.embeddingmodels.dbx" title="fintextanalytics.embeddingmodels.dbx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dbx</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.dbx">
+<span class="sig-prename descclassname"><span class="pre">fintextanalytics.embeddingmodels.</span></span><span class="sig-name descname"><span class="pre">dbx</span></span><a class="headerlink" href="#fintextanalytics.embeddingmodels.dbx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fintextanalytics.embeddingmodels.</span></span><span class="sig-name descname"><span class="pre">EmbeddingAnalyer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10K-long'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.fit_topic_model">
+<span class="sig-name descname"><span class="pre">fit_topic_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntopic_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umap_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hdbscan_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_docs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosine_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_reduced_topics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.fit_topic_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.fit_topic_model" title="Permalink to this definition"></a></dt>
+<dd><p>This method uses a set of l2-normalized embedded document vectors, reduces their dimension by the UMAP dimensionality reduction model,
+then the HDBSCAN cluster model to generate clusters which are considered to represent the topics, however, topic vectors are calculated using
+the centroid of embedded document vectors per cluster in the original embedding space. In addition, the number of topics is reduced
+by a cosine similarity threshold. After the process is finished, two sets of topic vectors and topic words are available. The one with the original
+topic number from the HDBSCAN algorithm and the one with a reduced number of topics.</p>
+<section id="parameters">
+<h4>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>document_vectors<span class="classifier">np.array</span></dt><dd><p>a numpy array with l2-normalized document vector embeddings which match to the class doc2vec model</p>
+</dd>
+<dt>ntopic_words: int</dt><dd><p>the number of words which are most similar to the topic</p>
+</dd>
+<dt>umap_args: dict</dt><dd><p>a dictionary with parameters for the UMAP model, default=None using the internal default arguments</p>
+</dd>
+<dt>hdbscan_args: dict</dt><dd><p>a dictionary with parameters for the HDBSCAN model, default=None using the internal default arguments</p>
+</dd>
+<dt>rm_docs: boolean</dt><dd><p>save the document vectors which have been used to train the topics if True, default = False which means vectors are deleted
+after topics have been trained</p>
+</dd>
+<dt>cosine_threshold: fload</dt><dd><dl class="simple">
+<dt>a value between 0 and 1 which defines the threshold above which original topic vectors are grouped together when creating reduced</dt><dd><p>topic vectors</p>
+</dd>
+</dl>
+</dd>
+<dt>n_reduced_topics: int</dt><dd><p>can be used as an alternative to the cosine similarity logic for topic reduction, if a fixed number of topics is desired;
+this should be done with caution, because topics with low similarity might be merged</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_docs_to_words">
+<span class="sig-name descname"><span class="pre">find_close_docs_to_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'esgwords'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn_documents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.find_close_docs_to_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_docs_to_words" title="Permalink to this definition"></a></dt>
+<dd><p>This function looks for documents whose meaning is close to the words provided.</p>
+<section id="id1">
+<h4>Parameters:<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<p>document_vectors: list or array of embedded document vectors
+wordlist: str or list</p>
+<blockquote>
+<div><p>If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>topn_documents: int</dt><dd><p>Specficy the outputted number of close document ids to words</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of two dataframes, the first with close document ids, the second with corresponding cosine similarities</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_words_to_docs">
+<span class="sig-name descname"><span class="pre">find_close_words_to_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'esgwords'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.find_close_words_to_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_words_to_docs" title="Permalink to this definition"></a></dt>
+<dd><p>This function looks for words whose meaning is close to the meaning of the documents.</p>
+<section id="id2">
+<h4>Parameters:<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<p>document_vectors: list or array of embedded document vectors
+wordlist: str or list</p>
+<blockquote>
+<div><p>If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>topn_words: int</dt><dd><p>Specficy the outputted number of close words to document ids</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h4>Returns:<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of two dataframes, the first with close words to document ids, the second with corresponding cosine similarities</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_words">
+<span class="sig-name descname"><span class="pre">find_close_topics_to_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'esgwords'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn_topics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.find_close_topics_to_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_words" title="Permalink to this definition"></a></dt>
+<dd><p>This function looks for topics which are close to the meaning of certain words.</p>
+<section id="id4">
+<h4>Parameters:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<p>topic_vectors: list or array of topic vectors; Note: topic vectors must be learned by the fit_topic_model method
+wordlist: str or list</p>
+<blockquote>
+<div><p>If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords. Or, you simply provide a list
+of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>topn_topics: int</dt><dd><p>Specficy the outputted number of close topics to words</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h4>Returns:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of two dataframes, the first with close topics to words, the second with corresponding cosine similarities</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_docs">
+<span class="sig-name descname"><span class="pre">find_close_topics_to_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn_topics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.find_close_topics_to_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_docs" title="Permalink to this definition"></a></dt>
+<dd><p>This function looks for topics which are close to documents.</p>
+<section id="id6">
+<h4>Parameters:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<p>document_vectors: list or array of embedded document vectors
+topic_vectors: list or array of topic vectors; Note: topic vectors must be learned by the fit_topic_model method
+topn_topics: int</p>
+<blockquote>
+<div><p>Specficy the outputted number of close topics to documents</p>
+</div></blockquote>
+</section>
+<section id="id7">
+<h4>Returns:<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of two dataframes, the first with close topics to documents, the second with corresponding cosine similarities</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.most_similar_words">
+<span class="sig-name descname"><span class="pre">most_similar_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wordlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'esgwords'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_words</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.most_similar_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.most_similar_words" title="Permalink to this definition"></a></dt>
+<dd><p>This function returns words which have similar meaning to words in the wordlist.</p>
+<section id="id8">
+<h4>Parameters:<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>wordlist: str or list</dt><dd><p>If you want to use internal word lists the string must be either: ewords, swords, gwords or esgwords.
+Or, you simply provide a list of strings, e.g., [‘expect’, ‘gdp’, ‘revenue’]</p>
+</dd>
+<dt>n_words: int</dt><dd><p>the number of words with similar context</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h4>Returns:<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>tuple</dt><dd><p>a tuple of two dataframes, the first with words close to words, the second with corresponding cosine similarities</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.save" title="Permalink to this definition"></a></dt>
+<dd><p>This function can be used to store a trained EmbeddingAnalyzer instance as a pickle file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer.load" title="Permalink to this definition"></a></dt>
+<dd><p>This function can be used to load a previously trained EmbeddingAnalyzer instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._find_topic_words_and_scores">
+<span class="sig-name descname"><span class="pre">_find_topic_words_and_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic_vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwords</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._find_topic_words_and_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._find_topic_words_and_scores" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._create_topic_vectors">
+<span class="sig-name descname"><span class="pre">_create_topic_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._create_topic_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._create_topic_vectors" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._deduplicate_topics">
+<span class="sig-name descname"><span class="pre">_deduplicate_topics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._deduplicate_topics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._deduplicate_topics" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._reduce_topic_vectors">
+<span class="sig-name descname"><span class="pre">_reduce_topic_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cosine_threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_reduced_topics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._reduce_topic_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._reduce_topic_vectors" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._wordlist_prepared">
+<span class="sig-name descname"><span class="pre">_wordlist_prepared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._wordlist_prepared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._wordlist_prepared" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_word_list">
+<span class="sig-name descname"><span class="pre">_load_word_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._load_word_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_word_list" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_normed_vectors">
+<span class="sig-name descname"><span class="pre">_validate_normed_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._validate_normed_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_normed_vectors" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._l2_normalize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_l2_normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._l2_normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._l2_normalize" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_doc_model">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_doc_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._load_doc_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_doc_model" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_words">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/fintextanalytics/embeddingmodels.html#EmbeddingAnalyer._validate_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_words" title="Permalink to this definition"></a></dt>
+<dd><p>This function is made for internal usage.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="fintextanalytics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../frequencymodels/index.html" class="btn btn-neutral float-right" title="fintextanalytics.frequencymodels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ralf Kellner.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

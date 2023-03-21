@@ -85,6 +85,8 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">nltk.data</span>
 <span class="n">sent_detector</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tokenizers/punkt/english.pickle&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="text_preprocessor"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.text_preprocessor">[docs]</a><span class="k">def</span> <span class="nf">text_preprocessor</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
@@ -345,6 +347,15 @@
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="load_example_reports"><a class="viewcode-back" href="../../autoapi/fintextanalytics/utils/index.html#fintextanalytics.utils.load_example_reports">[docs]</a><span class="k">def</span> <span class="nf">load_example_reports</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function is just for the purpose of demonstration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">this_dir</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;apple_10k_reportitems.csv&#39;</span><span class="p">)</span>
+    <span class="n">apple_reports</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">apple_reports</span></div>
     
         
 </pre></div>
