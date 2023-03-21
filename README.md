@@ -7,7 +7,7 @@ Text analysis of company reports
 tbd
 
 ```bash
-$ pip install fintextanalytics
+$ pip install -U git+https://github.com/RalfKellner/fintextanalytics/
 ```
 
 ## Usage
