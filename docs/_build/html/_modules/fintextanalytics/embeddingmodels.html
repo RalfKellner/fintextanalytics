@@ -85,11 +85,11 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">dbscan</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">read_word_list</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">read_word_list</span><span class="p">,</span> <span class="n">read_pickle</span>
 <span class="kn">import</span> <span class="nn">dropbox</span>
 <span class="n">dbx</span> <span class="o">=</span> <span class="n">dropbox</span><span class="o">.</span><span class="n">Dropbox</span><span class="p">(</span><span class="s1">&#39;sl.Ba7plxcgjo1SqCCkOSp8sti5cjJgKAmNn9VbDQMWEyqd2WN73zYk5jgH2_WZVcaaKCBfoh1LXqlgs3jFZaJXEHaDd8zbwKCSEII_lfkfYjO-Q5BGRAYOpYccBB3u86O141-vcNI&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EmbeddingAnalyer"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer">[docs]</a><span class="k">class</span> <span class="nc">EmbeddingAnalyer</span><span class="p">:</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer">[docs]</a><span class="k">class</span> <span class="nc">EmbeddingAnalyzer</span><span class="p">:</span>
 
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_model_name</span> <span class="o">=</span> <span class="s1">&#39;10K-long&#39;</span><span class="p">):</span>
@@ -99,7 +99,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">word_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_word_list</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer.fit_topic_model"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.fit_topic_model">[docs]</a>    <span class="k">def</span> <span class="nf">fit_topic_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">ntopic_words</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">umap_args</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">hdbscan_args</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rm_docs</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cosine_threshold</span> <span class="o">=</span> <span class="mf">0.50</span><span class="p">,</span> <span class="n">n_reduced_topics</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.fit_topic_model"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.fit_topic_model">[docs]</a>    <span class="k">def</span> <span class="nf">fit_topic_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">ntopic_words</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">umap_args</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">hdbscan_args</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rm_docs</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cosine_threshold</span> <span class="o">=</span> <span class="mf">0.50</span><span class="p">,</span> <span class="n">n_reduced_topics</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            This method uses a set of l2-normalized embedded document vectors, reduces their dimension by the UMAP dimensionality reduction model, </span>
@@ -170,7 +170,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">document_vectors</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer.find_close_docs_to_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_docs_to_words">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_docs_to_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_documents</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.find_close_docs_to_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.find_close_docs_to_words">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_docs_to_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_documents</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function looks for documents whose meaning is close to the words provided.</span>
 
@@ -204,7 +204,7 @@
         <span class="k">return</span> <span class="n">top_docs_df</span><span class="p">,</span> <span class="n">top_doc_scores_df</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer.find_close_words_to_docs"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_words_to_docs">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_words_to_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_words</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.find_close_words_to_docs"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.find_close_words_to_docs">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_words_to_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_words</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function looks for words whose meaning is close to the meaning of the documents.</span>
 
@@ -240,7 +240,7 @@
         <span class="k">return</span> <span class="n">top_words_df</span><span class="p">,</span> <span class="n">top_word_scores_df</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer.find_close_topics_to_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_words">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_topics_to_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_topics</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.find_close_topics_to_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.find_close_topics_to_words">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_topics_to_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">topn_topics</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function looks for topics which are close to the meaning of certain words.</span>
 
@@ -273,7 +273,7 @@
         <span class="k">return</span> <span class="n">top_topics_df</span><span class="p">,</span> <span class="n">top_topic_scores_df</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer.find_close_topics_to_docs"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.find_close_topics_to_docs">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_topics_to_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">topn_topics</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.find_close_topics_to_docs"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.find_close_topics_to_docs">[docs]</a>    <span class="k">def</span> <span class="nf">find_close_topics_to_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_vectors</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">topn_topics</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function looks for topics which are close to documents.</span>
 
@@ -302,7 +302,7 @@
         <span class="k">return</span> <span class="n">top_topics_df</span><span class="p">,</span> <span class="n">top_topic_scores_df</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer.most_similar_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.most_similar_words">[docs]</a>    <span class="k">def</span> <span class="nf">most_similar_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">n_words</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.most_similar_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.most_similar_words">[docs]</a>    <span class="k">def</span> <span class="nf">most_similar_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wordlist</span> <span class="o">=</span> <span class="s1">&#39;esgwords&#39;</span><span class="p">,</span> <span class="n">n_words</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function returns words which have similar meaning to words in the wordlist.</span>
 
@@ -338,7 +338,7 @@
         <span class="k">return</span> <span class="n">most_sim_words_df</span><span class="p">,</span> <span class="n">most_sim_scores_df</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer.save"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.save"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function can be used to store a trained EmbeddingAnalyzer instance as a pickle file.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -348,7 +348,7 @@
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer.load"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer.load"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function can be used to load a previously trained EmbeddingAnalyzer instance</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -357,7 +357,7 @@
         <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer._find_topic_words_and_scores"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._find_topic_words_and_scores">[docs]</a>    <span class="k">def</span> <span class="nf">_find_topic_words_and_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">nwords</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._find_topic_words_and_scores"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._find_topic_words_and_scores">[docs]</a>    <span class="k">def</span> <span class="nf">_find_topic_words_and_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">nwords</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -380,7 +380,7 @@
         <span class="k">return</span> <span class="n">topic_words</span><span class="p">,</span> <span class="n">topic_word_scores</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer._create_topic_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._create_topic_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_create_topic_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._create_topic_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._create_topic_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_create_topic_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -393,7 +393,7 @@
                       <span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">unique_labels</span><span class="p">]))</span></div>
         
     
-<div class="viewcode-block" id="EmbeddingAnalyer._deduplicate_topics"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._deduplicate_topics">[docs]</a>    <span class="k">def</span> <span class="nf">_deduplicate_topics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._deduplicate_topics"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._deduplicate_topics">[docs]</a>    <span class="k">def</span> <span class="nf">_deduplicate_topics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -420,7 +420,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">topic_vectors</span> <span class="o">=</span> <span class="n">unique_topics</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer._reduce_topic_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._reduce_topic_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_reduce_topic_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cosine_threshold</span><span class="p">,</span> <span class="n">n_reduced_topics</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._reduce_topic_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._reduce_topic_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_reduce_topic_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cosine_threshold</span><span class="p">,</span> <span class="n">n_reduced_topics</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -457,7 +457,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The number of topics has been reduced from </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topic_vectors</span><span class="p">)</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_topic_vectors</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer._wordlist_prepared"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._wordlist_prepared">[docs]</a>    <span class="k">def</span> <span class="nf">_wordlist_prepared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">print_info</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._wordlist_prepared"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._wordlist_prepared">[docs]</a>    <span class="k">def</span> <span class="nf">_wordlist_prepared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">print_info</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -485,7 +485,7 @@
         <span class="k">return</span> <span class="n">not_in_vocab</span><span class="p">,</span> <span class="n">in_vocab</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer._load_word_list"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_word_list">[docs]</a>    <span class="k">def</span> <span class="nf">_load_word_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._load_word_list"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._load_word_list">[docs]</a>    <span class="k">def</span> <span class="nf">_load_word_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -510,7 +510,7 @@
         <span class="k">return</span> <span class="n">word_list</span></div>
     
     
-<div class="viewcode-block" id="EmbeddingAnalyer._validate_normed_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_normed_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_validate_normed_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectors</span><span class="p">):</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._validate_normed_vectors"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._validate_normed_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">_validate_normed_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectors</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -526,7 +526,7 @@
         <span class="k">return</span> <span class="n">vectors_out</span></div>
     
 
-<div class="viewcode-block" id="EmbeddingAnalyer._l2_normalize"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._l2_normalize">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._l2_normalize"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._l2_normalize">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_l2_normalize</span><span class="p">(</span><span class="n">vectors</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
@@ -538,7 +538,7 @@
             <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">vectors</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer._load_doc_model"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._load_doc_model">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._load_doc_model"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._load_doc_model">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_load_doc_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>
@@ -547,25 +547,15 @@
         <span class="n">this_dir</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">&#39;10K-long&#39;</span><span class="p">:</span>
             <span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;d2v_10K_long.pkl&quot;</span><span class="p">)</span>
-            <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;/d2v_10K_long.pkl&#39;</span>
-        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">&#39;10K-10Q-short&#39;</span><span class="p">:</span>
-            <span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;d2v_10K10Q_short.pkl&quot;</span><span class="p">)</span>
-            <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;/d2v_10K10Q_short.pkl&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;Model name must be 10K-long or 10K-10Q-short.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;Model name must be 10K-long.&#39;</span><span class="p">)</span>
         
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-                <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Model needs to be downloaded before first time usage.&#39;</span><span class="p">)</span>
-            <span class="n">dbx</span><span class="o">.</span><span class="n">files_download_to_file</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-                <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">read_pickle</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">model</span></div>
 
 
-<div class="viewcode-block" id="EmbeddingAnalyer._validate_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyer._validate_words">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="EmbeddingAnalyzer._validate_words"><a class="viewcode-back" href="../../autoapi/fintextanalytics/embeddingmodels/index.html#fintextanalytics.embeddingmodels.EmbeddingAnalyzer._validate_words">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_validate_words</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This function is made for internal usage.</span>

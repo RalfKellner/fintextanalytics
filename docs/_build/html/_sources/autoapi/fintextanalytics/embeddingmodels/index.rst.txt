@@ -12,7 +12,7 @@ Classes
 
 .. autoapisummary::
 
-   fintextanalytics.embeddingmodels.EmbeddingAnalyer
+   fintextanalytics.embeddingmodels.EmbeddingAnalyzer
 
 
 
@@ -29,7 +29,7 @@ Attributes
 
    
 
-.. py:class:: EmbeddingAnalyer(doc_model_name='10K-long')
+.. py:class:: EmbeddingAnalyzer(doc_model_name='10K-long')
 
    .. py:method:: fit_topic_model(document_vectors, ntopic_words=25, umap_args=None, hdbscan_args=None, rm_docs=False, cosine_threshold=0.5, n_reduced_topics=None)
 

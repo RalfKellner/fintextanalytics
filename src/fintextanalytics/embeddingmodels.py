@@ -8,11 +8,11 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import dbscan
 from sklearn.preprocessing import normalize
-from .utils import read_word_list
+from .utils import read_word_list, read_pickle
 import dropbox
 dbx = dropbox.Dropbox('sl.Ba7plxcgjo1SqCCkOSp8sti5cjJgKAmNn9VbDQMWEyqd2WN73zYk5jgH2_WZVcaaKCBfoh1LXqlgs3jFZaJXEHaDd8zbwKCSEII_lfkfYjO-Q5BGRAYOpYccBB3u86O141-vcNI')
 
-class EmbeddingAnalyer:
+class EmbeddingAnalyzer:
 
 
     def __init__(self, doc_model_name = '10K-long'):
@@ -470,21 +470,11 @@ class EmbeddingAnalyer:
         this_dir, _ = os.path.split(__file__)
         if model_name == '10K-long':
             data_path = os.path.join(this_dir, "data", "d2v_10K_long.pkl")
-            file_name = '/d2v_10K_long.pkl'
-        elif model_name == '10K-10Q-short':
-            data_path = os.path.join(this_dir, "data", "d2v_10K10Q_short.pkl")
-            file_name = '/d2v_10K10Q_short.pkl'
         else:
-            raise NameError('Model name must be 10K-long or 10K-10Q-short.')
+            raise NameError('Model name must be 10K-long.')
         
-        try:
-            with open(data_path, 'rb') as handle:
-                model = pickle.load(handle)
-        except:
-            print('Model needs to be downloaded before first time usage.')
-            dbx.files_download_to_file(data_path, file_name)
-            with open(data_path, 'rb') as handle:
-                model = pickle.load(handle)
+        model = read_pickle(data_path)
+
         return model
 
 

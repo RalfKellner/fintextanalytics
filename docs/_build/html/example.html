@@ -213,9 +213,9 @@
 <h2>Search for documents whose meaning is close to the meaning of certain words<a class="headerlink" href="#search-for-documents-whose-meaning-is-close-to-the-meaning-of-certain-words" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fintextanalytics.embeddingmodels</span> <span class="kn">import</span> <span class="n">EmbeddingAnalyer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fintextanalytics.embeddingmodels</span> <span class="kn">import</span> <span class="n">EmbeddingAnalyzer</span>
 
-<span class="n">embed_analyzer</span> <span class="o">=</span> <span class="n">EmbeddingAnalyer</span><span class="p">()</span>
+<span class="n">embed_analyzer</span> <span class="o">=</span> <span class="n">EmbeddingAnalyzer</span><span class="p">()</span>
 
 <span class="c1"># get the preprocessed text from all documents we want to use</span>
 <span class="n">docs</span> <span class="o">=</span> <span class="n">report_sentences_preprocessed</span><span class="p">[</span><span class="n">report_sentences_preprocessed</span><span class="o">.</span><span class="n">use_doc</span><span class="p">]</span><span class="o">.</span><span class="n">prep_text</span>
@@ -239,7 +239,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>In sum 49 words from the default word lists could not be found in the Word2Vec vocabulary. These words are deleted from the word list:
-{&#39;ethnicity&#39;, &#39;motivates&#39;, &#39;proponent&#39;, &#39;discriminated&#39;, &#39;ungc&#39;, &#39;grandparents&#39;, &#39;honesty&#39;, &#39;humanity&#39;, &#39;minorities&#39;, &#39;cobc&#39;, &#39;eeo&#39;, &#39;vacancyappreciation&#39;, &#39;nondiscrimination&#39;, &#39;vestsballot&#39;, &#39;genders&#39;, &#39;interlocks&#39;, &#39;gays&#39;, &#39;lobbyist&#39;, &#39;grandchildren&#39;, &#39;lesbians&#39;, &#39;donating&#39;, &#39;perquisites&#39;, &#39;gay&#39;, &#39;eicc&#39;, &#39;childbirth&#39;, &#39;ethnically&#39;, &#39;siblings&#39;, &#39;homosexual&#39;, &#39;ilo&#39;, &#39;educates&#39;, &#39;ruggie&#39;, &#39;householding&#39;, &#39;ballots&#39;, &#39;lesbian&#39;, &#39;nephews&#39;, &#39;parachutes&#39;, &#39;nieces&#39;, &#39;bisexual&#39;, &#39;donates&#39;, &#39;lgbt&#39;, &#39;spousal&#39;, &#39;stepchildren&#39;, &#39;webpage&#39;, &#39;transgender&#39;, &#39;ethnicities&#39;, &#39;ethic&#39;, &#39;stepparents&#39;, &#39;grandparent&#39;, &#39;marriage&#39;}
+{&#39;honesty&#39;, &#39;stepchildren&#39;, &#39;grandchildren&#39;, &#39;grandparent&#39;, &#39;stepparents&#39;, &#39;marriage&#39;, &#39;parachutes&#39;, &#39;spousal&#39;, &#39;ethnicities&#39;, &#39;gay&#39;, &#39;vestsballot&#39;, &#39;minorities&#39;, &#39;donating&#39;, &#39;humanity&#39;, &#39;donates&#39;, &#39;discriminated&#39;, &#39;eeo&#39;, &#39;nephews&#39;, &#39;genders&#39;, &#39;lesbian&#39;, &#39;nieces&#39;, &#39;bisexual&#39;, &#39;siblings&#39;, &#39;lgbt&#39;, &#39;ruggie&#39;, &#39;vacancyappreciation&#39;, &#39;grandparents&#39;, &#39;householding&#39;, &#39;eicc&#39;, &#39;ballots&#39;, &#39;interlocks&#39;, &#39;proponent&#39;, &#39;educates&#39;, &#39;cobc&#39;, &#39;ungc&#39;, &#39;childbirth&#39;, &#39;homosexual&#39;, &#39;ethnicity&#39;, &#39;motivates&#39;, &#39;lesbians&#39;, &#39;webpage&#39;, &#39;ethic&#39;, &#39;ethnically&#39;, &#39;transgender&#39;, &#39;lobbyist&#39;, &#39;nondiscrimination&#39;, &#39;ilo&#39;, &#39;perquisites&#39;, &#39;gays&#39;}
 Vectors seem not have unit length...the vectors have been l2-normalized.
 The context word for the following documents is: clean
 The corresponing sentence with the highest similarity is:
@@ -447,25 +447,25 @@ Starting to train the clustering model...
 HDBSCAN model for clustering has been trained!
 
 Creating topic vectors...
-Creating topic vectors finished! 20 topics have been found.
+Creating topic vectors finished! 17 topics have been found.
 Creating a reduced topic model...
-The number of topics has been reduced from 20 to 17.
-Topic reduction is finished, the number of reduced topics is 17
+The number of topics has been reduced from 17 to 14.
+Topic reduction is finished, the number of reduced topics is 14
 
 ----------------------------------------------------------------------------------------------------
 Top 10 words of topic number 1:
-[&#39;assurance&#39; &#39;assurances&#39; &#39;reasonable&#39; &#39;acceptable&#39; &#39;no&#39; &#39;demeanor&#39;
- &#39;commercially&#39; &#39;there&#39; &#39;witnesses&#39; &#39;can&#39;]
+[&#39;warranty&#39; &#39;ppsa&#39; &#39;workmanship&#39; &#39;overstocked&#39; &#39;microinverters&#39; &#39;inox&#39;
+ &#39;foundry&#39; &#39;bos&#39; &#39;overpaid&#39; &#39;warranties&#39;]
 ----------------------------------------------------------------------------------------------------
 Top 10 words of topic number 2:
-[&#39;contingencies&#39; &#39;item&#39; &#39;supplementary&#39; &#39;elsewhere&#39; &#39;cautionary&#39; &#39;herein&#39;
- &#39;caption&#39; &#39;appearing&#39; &#39;heading&#39; &#39;unasserted&#39;]
+[&#39;asr&#39; &#39;repurchased&#39; &#39;repurchase&#39; &#39;mlv&#39; &#39;wpz&#39; &#39;lpc&#39; &#39;buyback&#39; &#39;vwap&#39;
+ &#39;jefferies&#39; &#39;aspire&#39;]
 ----------------------------------------------------------------------------------------------------
 ...
 ----------------------------------------------------------------------------------------------------
-Top 10 words of topic number 20:
-[&#39;repurchase&#39; &#39;repurchases&#39; &#39;repurchased&#39; &#39;ncib&#39; &#39;dividend&#39; &#39;buyback&#39;
- &#39;equated&#39; &#39;repayments&#39; &#39;equivalents&#39; &#39;tcj&#39;]
+Top 10 words of topic number 17:
+[&#39;itunes&#39; &#39;apple&#39; &#39;iphone&#39; &#39;android&#39; &#39;google&#39; &#39;app&#39; &#39;downloadable&#39; &#39;ipad&#39;
+ &#39;ios&#39; &#39;downloaded&#39;]
 ----------------------------------------------------------------------------------------------------
 </pre></div>
 </div>
