@@ -128,7 +128,6 @@ def scrape_10k_items(cik, accension_nbr, email):
     doc_types = [x[len('<TYPE>'):] for x in type_pattern.findall(raw_10k)]
 
     document = {}
-
     # Create a loop to go through each section type and save only the 10-K section in the dictionary
     for doc_type, doc_start, doc_end in zip(doc_types, doc_start_is, doc_end_is):
         if doc_type == '10-K':

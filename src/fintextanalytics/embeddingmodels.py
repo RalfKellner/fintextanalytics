@@ -9,14 +9,13 @@ import numpy as np
 from sklearn.cluster import dbscan
 from sklearn.preprocessing import normalize
 from .utils import read_word_list, read_pickle
-import dropbox
-dbx = dropbox.Dropbox('sl.Ba7plxcgjo1SqCCkOSp8sti5cjJgKAmNn9VbDQMWEyqd2WN73zYk5jgH2_WZVcaaKCBfoh1LXqlgs3jFZaJXEHaDd8zbwKCSEII_lfkfYjO-Q5BGRAYOpYccBB3u86O141-vcNI')
+from gensim.models.doc2vec import Doc2Vec
 
 class EmbeddingAnalyzer:
 
-
-    def __init__(self, doc_model_name = '10K-long'):
-        self.doc_model = self._load_doc_model(doc_model_name)
+    def __init__(self):
+        #self.doc_model = self._load_doc_model(doc_model_name)
+        self.doc_model = Doc2Vec.load('https://windat.uni-passau.de/filr/public-link/file-download/ff808082886b7c6001886c8bc5c4010c/11239/-6674408658168774027/d2v_10K_long.pkl')
         self.word_vectors = self.doc_model.wv.get_normed_vectors()
         self.vocab = list(self.doc_model.wv.key_to_index.keys())
         self.word_list = self._load_word_list()
@@ -461,21 +460,21 @@ class EmbeddingAnalyzer:
             return normalize(vectors.reshape(1, -1))[0]
 
 
-    @staticmethod
-    def _load_doc_model(model_name):
-        '''
-        This function is made for internal usage.
-        '''
+    #@staticmethod
+    #def _load_doc_model(model_name):
+    #    '''
+    #    This function is made for internal usage.
+    #    '''
 
-        this_dir, _ = os.path.split(__file__)
-        if model_name == '10K-long':
-            data_path = os.path.join(this_dir, "data", "d2v_10K_long.pkl")
-        else:
-            raise NameError('Model name must be 10K-long.')
-        
-        model = read_pickle(data_path)
-
-        return model
+    #    this_dir, _ = os.path.split(__file__)
+    #    if model_name == '10K-long':
+    #        data_path = os.path.join(this_dir, "data", "d2v_10K_long.pkl")
+    #    else:
+    #        raise NameError('Model name must be 10K-long.')
+    #    
+    #    model = read_pickle(data_path)
+    #
+    #    return model
 
 
     @staticmethod
