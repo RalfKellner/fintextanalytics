@@ -82,6 +82,7 @@ def report2sentences(raw_text, idx_start=0, min_words=10, max_words=100, **kwarg
 
     return sentences_df
 
+
 def scrape_10k_items(cik, accension_nbr, email): 
 
     '''
