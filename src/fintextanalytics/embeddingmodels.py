@@ -22,7 +22,7 @@ class EmbeddingAnalyzer:
             this_dir, _ = os.path.split(__file__)
             data_path = os.path.join(this_dir, "data", "d2v_10K_long.pkl")
             self.doc_model.save(data_path)
-            
+
         self.word_vectors = self.doc_model.wv.get_normed_vectors()
         self.vocab = list(self.doc_model.wv.key_to_index.keys())
         self.word_list = self._load_word_list()
@@ -251,8 +251,8 @@ class EmbeddingAnalyzer:
 
         '''
         
-        self._validate_words(words)
-        not_in_vocab, in_vocab = self._wordlist_prepared(words)
+        self._validate_words(wordlist)
+        not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
 
         normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
         res = np.inner(normed_word_vectors, self.word_vectors)
