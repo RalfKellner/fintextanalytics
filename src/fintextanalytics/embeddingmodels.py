@@ -24,6 +24,9 @@ class EmbeddingAnalyzer:
             self.doc_model.save(data_path)
 
         self.word_vectors = self.doc_model.wv.get_normed_vectors()
+        # uncomment if you want to train a 2D embedder for visualization
+        #self.twod_embedder = umap.UMAP(n_neighbors =  15, n_components = 2, metric = 'cosine').fit(self.word_vectors)
+        self.manual_topic_vectors = {}
         self.vocab = list(self.doc_model.wv.key_to_index.keys())
         self.word_list = self._load_word_list()
 
@@ -89,12 +92,14 @@ class EmbeddingAnalyzer:
         print('Creating topic vectors...')
         self._create_topic_vectors(self.cluster_model.labels_)
         self._deduplicate_topics()
-        print(f'Creating topic vectors finished! {self.topic_vectors.shape[0]} topics have been found.')
-
-        self.topic_words, self.topic_word_scores = self._find_topic_words_and_scores(topic_vectors=self.topic_vectors, nwords = self.ntopic_words)
+        print(f'Creating topic vectors finished! {self.raw_topic_vectors.shape[0]} topics have been found.')
         print('Creating a reduced topic model...')
         self._reduce_topic_vectors(cosine_threshold = cosine_threshold, n_reduced_topics = n_reduced_topics)
-        print(f'Topic reduction is finished, the number of reduced topics is {self.reduced_topic_vectors.shape[0]}')
+        print(f'Topic reduction is finished, the number of reduced topics is {self.topic_vectors.shape[0]}')
+
+        self.raw_topic_words, self.raw_topic_word_scores = self._find_topic_words_and_scores(topic_vectors=self.raw_topic_vectors, nwords = self.ntopic_words)
+        self.topic_words, self.topic_word_scores = self._find_topic_words_and_scores(topic_vectors=self.topic_vectors, nwords = self.ntopic_words)
+
         if rm_docs:
             self.document_vectors = None
 
@@ -121,14 +126,17 @@ class EmbeddingAnalyzer:
         document_vectors_valid = self._validate_normed_vectors(document_vectors)
         self._validate_words(wordlist)
         not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
-    
-        normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
+
+        normed_word_vectors = np.array([self._l2_normalize(vec) for vec in [self._generate_avg_word_vector(word) if isinstance(word, list) else self.doc_model.wv[word] for word in in_vocab]])
+        #normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
+        
         res = np.inner(normed_word_vectors, document_vectors_valid)
         top_docs = np.flip(np.argsort(res, axis = 1), axis = 1)[:, :topn_documents]
         top_doc_scores = np.flip(np.sort(res, axis = 1), axis = 1)[:, :topn_documents]
 
-        top_docs_df = pd.DataFrame(top_docs, index = in_vocab)
-        top_doc_scores_df = pd.DataFrame(top_doc_scores, index = in_vocab)
+        in_vocab_index = [' '.join(word) if isinstance(word, list) else word for word in in_vocab]
+        top_docs_df = pd.DataFrame(top_docs, index = in_vocab_index)
+        top_doc_scores_df = pd.DataFrame(top_doc_scores, index = in_vocab_index)
 
         return top_docs_df, top_doc_scores_df
     
@@ -156,7 +164,7 @@ class EmbeddingAnalyzer:
         self._validate_words(wordlist)
         not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
     
-        normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
+        normed_word_vectors = np.array([self._l2_normalize(vec) for vec in [self._generate_avg_word_vector(word) if isinstance(word, list) else self.doc_model.wv[word] for word in in_vocab]])
         res = np.inner(document_vectors_valid, normed_word_vectors)
         top_words = np.flip(np.argsort(res, axis = 1), axis = 1)[:, :topn_words]
         top_word_scores = np.flip(np.sort(res, axis = 1), axis = 1)[:, :topn_words]
@@ -191,13 +199,14 @@ class EmbeddingAnalyzer:
         self._validate_words(wordlist)
         not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
         
-        normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
+        normed_word_vectors = np.array([self._l2_normalize(vec) for vec in [self._generate_avg_word_vector(word) if isinstance(word, list) else self.doc_model.wv[word] for word in in_vocab]])
         res = np.inner(normed_word_vectors, topic_vectors_valid)
         top_topics = np.flip(np.argsort(res, axis = 1), axis = 1)[:, :topn_topics]
         top_topic_scores = np.flip(np.sort(res, axis = 1), axis = 1)[:, :topn_topics]
 
-        top_topics_df = pd.DataFrame(top_topics, index = in_vocab)
-        top_topic_scores_df = pd.DataFrame(top_topic_scores, index = in_vocab)
+        in_vocab_index = [' '.join(word) if isinstance(word, list) else word for word in in_vocab]
+        top_topics_df = pd.DataFrame(top_topics, index = in_vocab_index)
+        top_topic_scores_df = pd.DataFrame(top_topic_scores, index = in_vocab_index)
 
         return top_topics_df, top_topic_scores_df
 
@@ -229,6 +238,35 @@ class EmbeddingAnalyzer:
         top_topic_scores_df = pd.DataFrame(top_topic_scores)
 
         return top_topics_df, top_topic_scores_df
+
+
+    def find_close_docs_to_topics(self, topic_vectors, document_vectors, topn_docs = 3):
+        '''
+        This function looks for documents which are close to topics.
+
+        Parameters:
+        ------------
+        document_vectors: list or array of embedded document vectors
+        topic_vectors: list or array of topic vectors; Note: topic vectors must be learned by the fit_topic_model method
+        topn_topics: int
+            Specficy the outputted number of close topics to documents
+
+        Returns:
+        ---------
+        tuple
+            a tuple of two dataframes, the first with close topics to documents, the second with corresponding cosine similarities
+        '''
+        document_vectors_valid = self._validate_normed_vectors(document_vectors)
+        topic_vectors_valid = self._validate_normed_vectors(topic_vectors)
+        
+        res = np.inner(topic_vectors_valid, document_vectors_valid)
+        top_docs = np.flip(np.argsort(res, axis = 1), axis = 1)[:, :topn_docs]
+        top_doc_scores = np.flip(np.sort(res, axis = 1), axis = 1)[:, :topn_docs]
+
+        top_docs_df = pd.DataFrame(top_docs)
+        top_doc_scores_df = pd.DataFrame(top_doc_scores)
+
+        return top_docs_df, top_doc_scores_df
     
 
     def most_similar_words(self, wordlist = 'esgwords', n_words = 5):
@@ -254,7 +292,7 @@ class EmbeddingAnalyzer:
         self._validate_words(wordlist)
         not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
 
-        normed_word_vectors = np.array([self._l2_normalize(self.doc_model.wv[word]) for word in in_vocab])
+        normed_word_vectors = np.array([self._l2_normalize(vec) for vec in [self._generate_avg_word_vector(word) if isinstance(word, list) else self.doc_model.wv[word] for word in in_vocab]])
         res = np.inner(normed_word_vectors, self.word_vectors)
 
         most_sim_idx = np.flip(np.argsort(res, axis = 1), axis = 1)[:, 1:(n_words+1)]
@@ -265,6 +303,55 @@ class EmbeddingAnalyzer:
         most_sim_scores_df = pd.DataFrame(most_sim_scores, index = in_vocab)
 
         return most_sim_words_df, most_sim_scores_df
+    
+
+    def identify_outlier_word(self, wordlist):
+        '''
+        This function can be used to identify if certain words of a wordlist exhibit low similarity on average to the remaining words.
+
+
+        Parameters:
+        -------------
+        wordlist: a list of str
+
+        Returns:
+        ---------
+        exclude_words: array with all words sorted increasing by lowest average similarity
+        exclude_word_scores: array with average cosine similarities of this word to the remaining words
+
+
+        '''
+
+        not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
+
+        word_index = [self.doc_model.wv.key_to_index[word] for word in in_vocab]
+        word_embeddings = self.word_vectors[word_index]
+        res = np.inner(word_embeddings, word_embeddings)
+        exclude_words = [in_vocab[i] for i in np.argsort(res.mean(axis = 1))]
+        exclude_word_scores = np.sort(res.mean(axis = 1))
+
+        return exclude_words, exclude_word_scores
+
+
+    def create_wordbased_topic(self, wordlist, name):
+        '''
+        This function can be used to add a self-defined topic vector which is the average of word vectors in the word_list
+        
+        Parameters:
+        -------------
+        wordlist: a list of str
+        name: str which serves as an identifier such that the build topic vector can be found in the self.manual_topic_vectors dictionary
+
+        Returns:
+        ---------
+
+        '''
+
+        not_in_vocab, in_vocab = self._wordlist_prepared(wordlist)
+
+        word_index = [self.doc_model.wv.key_to_index[word] for word in in_vocab]
+        word_embeddings = self.word_vectors[word_index]
+        self.manual_topic_vectors[name] = self._l2_normalize(word_embeddings).mean(axis = 0).reshape(1, -1)
 
 
     def save(self, file):
@@ -317,7 +404,7 @@ class EmbeddingAnalyzer:
         unique_labels = set(cluster_labels)
         if -1 in unique_labels:
             unique_labels.remove(-1)
-        self.topic_vectors = self._l2_normalize(
+        self.raw_topic_vectors = self._l2_normalize(
             np.vstack([self.document_vectors[np.where(cluster_labels == label)[0]]
                       .mean(axis=0) for label in unique_labels]))
         
@@ -327,7 +414,7 @@ class EmbeddingAnalyzer:
         This function is made for internal usage.
         '''
 
-        core_samples, labels = dbscan(X=self.topic_vectors,
+        core_samples, labels = dbscan(X=self.raw_topic_vectors,
                                       eps=0.1,
                                       min_samples=2,
                                       metric="cosine")
@@ -336,25 +423,25 @@ class EmbeddingAnalyzer:
 
         if len(duplicate_clusters) > 1 or -1 not in duplicate_clusters:
 
-            unique_topics = self.topic_vectors[np.where(labels == -1)[0]]
+            unique_topics = self.raw_topic_vectors[np.where(labels == -1)[0]]
 
             if -1 in duplicate_clusters:
                 duplicate_clusters.remove(-1)
 
             for unique_label in duplicate_clusters:
                 unique_topics = np.vstack(
-                    [unique_topics, self._l2_normalize(self.topic_vectors[np.where(labels == unique_label)[0]]
+                    [unique_topics, self._l2_normalize(self.raw_topic_vectors[np.where(labels == unique_label)[0]]
                                                        .mean(axis=0))])
 
-            self.topic_vectors = unique_topics
-
+            self.raw_topic_vectors = unique_topics
+        
 
     def _reduce_topic_vectors(self, cosine_threshold, n_reduced_topics):
         '''
         This function is made for internal usage.
         '''
 
-        topic_vectors = self.topic_vectors
+        topic_vectors = self.raw_topic_vectors
         n_topics = topic_vectors.shape[0]
         inner = np.inner(topic_vectors, topic_vectors)
         np.fill_diagonal(inner, 0.0)
@@ -380,10 +467,9 @@ class EmbeddingAnalyzer:
                 topic_vectors = np.append(topic_vectors, new_topic.reshape(1, -1), axis = 0)
                 n_topics = topic_vectors.shape[0]
 
-        self.reduced_topic_vectors = topic_vectors
-        self.reduced_topic_words, self.reduced_topic_word_scores = self._find_topic_words_and_scores(topic_vectors=self.reduced_topic_vectors, nwords = self.ntopic_words)
+        self.topic_vectors = self._l2_normalize(topic_vectors)
 
-        print(f'The number of topics has been reduced from {len(self.topic_vectors)} to {len(self.reduced_topic_vectors)}.')
+        print(f'The number of topics has been reduced from {len(self.raw_topic_vectors)} to {len(self.topic_vectors)}.')
 
 
     def _wordlist_prepared(self, words, print_info = True):
@@ -399,10 +485,16 @@ class EmbeddingAnalyzer:
         in_vocab = []
         not_in_vocab = []
         for word in word_list:
-            if word in self.vocab:
-                in_vocab.append(word)
+            if isinstance(word, list):
+                if all([w in self.vocab for w in word]):
+                    in_vocab.append(word)
+                else:
+                    not_in_vocab.append(word)
             else:
-                not_in_vocab.append(word)
+                if word in self.vocab:
+                    in_vocab.append(word)
+                else:
+                    not_in_vocab.append(word)
 
         if (len(not_in_vocab) > 0) and print_info:
             print('The following words are not in the vocabulary:\n')
@@ -455,6 +547,18 @@ class EmbeddingAnalyzer:
         return vectors_out
     
 
+    def _generate_avg_word_vector(self, words):
+        '''
+        This function is made for internal usage. It calculates the average vector for a list of given word vectors
+        '''
+    
+        avg_vector = np.zeros(self.doc_model.wv[0].shape[0])
+        for word in words:
+            avg_vector += self.doc_model.wv[word]
+        avg_vector = avg_vector / len(words)
+        return avg_vector
+
+
     @staticmethod
     def _l2_normalize(vectors):
         '''
@@ -490,6 +594,6 @@ class EmbeddingAnalyzer:
         if isinstance(words, str):
             assert words in ['ewords', 'swords', 'gwords', 'esgwords'], 'When using internal word list, words must be "ewords", "swords", "gwords" or "esgwords"'
         elif isinstance(words, list):
-            assert all([isinstance(word, str) for word in words]), 'If a user defined word list is provided, a list of strings must be used.'
+            print('Identified user defined word list. Note this list should contain of strings or list of strings. The latter will be merged to one embedding vector by averaging the words.')
         else:
             raise TypeError('Either use a string for build-in word lists or provide a list of strings.')
